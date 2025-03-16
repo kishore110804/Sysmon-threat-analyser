@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+/* Using a fallback method since 'Playwrite GB J Guides' may not be directly available on Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -26,6 +28,19 @@
        url('/fonts/Array-Semibold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
+}
+
+/* Define Playwrite GB J Guides font class */
+.playwrite-gb-j-guides-regular {
+  font-family: "Playwrite GB J Guides", "Playfair Display", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.playwrite-gb-j-guides-regular-italic {
+  font-family: "Playwrite GB J Guides", "Playfair Display", cursive;
+  font-weight: 400;
+  font-style: italic;
 }
 
 @layer base {

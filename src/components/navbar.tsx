@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Home, ShoppingCart, User, Menu } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
   
   // Navigation items for reuse
   const navItems = [
@@ -28,7 +34,7 @@ export const Navbar = () => {
   // Reusable navigation icon component
   const NavIcon = ({ path, icon, label }: { path: string, icon: React.ReactNode, label: string }) => (
     <Link to={path} className="relative group">
-      <div className="bg-[#EFEBDF] p-2 rounded-full hover:bg-secondary transition-colors duration-300 ease-in-out">
+      <div className={`bg-[#EFEBDF] p-2 rounded-full hover:bg-secondary transition-colors duration-300 ease-in-out ${location.pathname === path ? 'bg-secondary' : ''}`}>
         {icon}
         <span className="sr-only">{label}</span>
       </div>
@@ -44,13 +50,8 @@ export const Navbar = () => {
   );
   
   return (
-    <div className="w-full px-3 md:px-4 py-2">
-      <motion.div 
-        className="flex items-center justify-between"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+    <div className="w-full px-3 md:px-4 py-2 fixed top-0 z-50 bg-[#EFEBDF]">
+      <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
@@ -68,17 +69,12 @@ export const Navbar = () => {
         </button>
 
         {/* Desktop Navigation Container */}
-        <motion.div 
-          className="hidden md:flex items-center bg-[#201F1F] rounded-full px-3 py-1.5 shadow-md w-11/12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-        >
+        <div className="hidden md:flex items-center bg-[#201F1F] rounded-full px-3 py-1.5 shadow-md w-11/12">
           {/* Kudos Board Button */}
           <div className="flex-1 mr-3">
             <Link 
               to="/kudos"
-              className="block bg-[#EFEBDF] text-[#201F1F] hover:bg-[#201F1F] hover:text-[#EFEBDF] rounded-full px-4 py-1.5 text-center transition-colors duration-300 ease-in-out w-[98%]"
+              className={`block bg-[#EFEBDF] text-[#201F1F] hover:bg-[#201F1F] hover:text-[#EFEBDF] rounded-full px-4 py-1.5 text-center transition-colors duration-300 ease-in-out w-[98%] ${location.pathname === "/kudos" ? 'bg-[#201F1F] text-[#EFEBDF]' : ''}`}
             >
               <span className="font-heading font-semibold text-base">Kudos board</span>
             </Link>
@@ -92,45 +88,47 @@ export const Navbar = () => {
               </div>
             ))}
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <motion.div 
-          className="md:hidden mt-3 bg-[#201F1F] rounded-2xl p-3 shadow-md"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            className="md:hidden mt-3 bg-[#201F1F] rounded-2xl p-3 shadow-md"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <Link 
-              to="/kudos"
-              className="block w-[98%] bg-[#EFEBDF] text-[#201F1F] hover:bg-[#201F1F] hover:text-[#EFEBDF] rounded-full px-4 py-1.5 mb-3 text-center transition-colors duration-300 ease-in-out"
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
             >
-              <span className="font-heading font-semibold text-base">Kudos board</span>
-            </Link>
-            
-            <div className="flex justify-center space-x-3 mt-3">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.path}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                >
-                  <NavIcon path={item.path} icon={item.icon} label={item.label} />
-                </motion.div>
-              ))}
-            </div>
+              <Link 
+                to="/kudos"
+                className={`block w-[98%] bg-[#EFEBDF] text-[#201F1F] hover:bg-[#201F1F] hover:text-[#EFEBDF] rounded-full px-4 py-1.5 mb-3 text-center transition-colors duration-300 ease-in-out ${location.pathname === "/kudos" ? 'bg-[#201F1F] text-[#EFEBDF]' : ''}`}
+              >
+                <span className="font-heading font-semibold text-base">Kudos board</span>
+              </Link>
+              
+              <div className="flex justify-center space-x-3 mt-3">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.path}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 + index * 0.1 }}
+                  >
+                    <NavIcon path={item.path} icon={item.icon} label={item.label} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 };

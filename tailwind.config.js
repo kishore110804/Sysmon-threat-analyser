@@ -23,6 +23,8 @@ export default {
 			fontFamily: {
 				sans: ['IBM Plex Mono', 'monospace'],
 				heading: ['Array', 'sans-serif'],
+				playfair: ['Playfair Display', 'serif'],
+				playwrite: ['"Playwrite GB J Guides"', 'Playfair Display', 'cursive']
 			},
 			colors: {
 				border: "hsl(var(--border))",
