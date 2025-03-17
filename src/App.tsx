@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { TailwindIndicator } from "./components/tailwind-indicator"
+
 import Home from "./pages/home"
 import Hoods from "./pages/hoods"
 import Kudos from "./pages/kudos"
@@ -16,6 +16,14 @@ import ShippingPolicy from "./pages/policies/shipping"
 import ShareAndEarn from "./pages/makemoney/share"
 import Collaborate from "./pages/makemoney/collaborate"
 import SalesExecutive from "./pages/makemoney/sales"
+
+// Clothing Pages
+import HoodFits from "./pages/clothingpages/hoodfits"
+import MiniMoves from "./pages/clothingpages/minimoves"
+import EzTees from "./pages/clothingpages/eztees"
+import SwagLoops from "./pages/clothingpages/swagloops"
+import CapsVault from "./pages/clothingpages/capsvault"
+import FlowPants from "./pages/clothingpages/flowpants"
 
 function App() {
   return (
@@ -39,10 +47,17 @@ function App() {
             <Route path="/makemoney/share" element={<ShareAndEarn />} />
             <Route path="/makemoney/collaborate" element={<Collaborate />} />
             <Route path="/makemoney/sales" element={<SalesExecutive />} />
+            
+            {/* Clothing Pages */}
+            <Route path="/clothingpages/hoodfits" element={<HoodFits />} />
+            <Route path="/clothingpages/minimoves" element={<MiniMoves />} />
+            <Route path="/clothingpages/eztees" element={<EzTees />} />
+            <Route path="/clothingpages/swagloops" element={<SwagLoops />} />
+            <Route path="/clothingpages/capsvault" element={<CapsVault />} />
+            <Route path="/clothingpages/flowpants" element={<FlowPants />} />
           </Routes>
         </div>
       </div>
-      <TailwindIndicator />
     </>
   )
 }
