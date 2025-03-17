@@ -120,3 +120,12 @@
     font-family: 'Array', sans-serif;
   }
 }
+
+/* Add glass effect utilities */
+.glass-effect {
+  @apply bg-opacity-70 backdrop-blur-md backdrop-saturate-150 backdrop-filter;
+}
+
+.gradient-blur {
+  @apply after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#EFEBDF]/70 after:to-transparent after:backdrop-blur-[2px] after:z-[-1];
+}

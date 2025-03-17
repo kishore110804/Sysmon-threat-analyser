@@ -100,6 +100,14 @@ export default {
 				"subtle-bounce": {
 					"0%, 100%": { transform: "translateY(0)" },
 					"50%": { transform: "translateY(-2px)" },
+					"blur-in": {
+						"0%": { backdropFilter: "blur(0px)" },
+						"100%": { backdropFilter: "blur(8px)" },
+					},
+					"opacity-pulse": {
+						"0%, 100%": { opacity: "0.8" },
+						"50%": { opacity: "0.5" },
+					},
 				},
 			},
 			animation: {
@@ -110,7 +118,12 @@ export default {
 				"slide-in": "slide-in 0.3s ease-out",
 				"glow-pulse": "glow-pulse 3s ease-in-out infinite",
 				"subtle-bounce": "subtle-bounce 3s ease-in-out infinite",
+				"blur-in": "blur-in 0.4s ease-in-out forwards",
+				"opacity-pulse": "opacity-pulse 3s ease-in-out infinite",
 			},
+			backdropBlur: {
+				xs: '2px',
+			}
 		},
 	},
 	plugins: [animatePlugin],
