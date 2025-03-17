@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 type VerticalNavProps = {
   className?: string;
@@ -7,6 +8,7 @@ type VerticalNavProps = {
 
 export const VerticalNav = ({ className = "" }: VerticalNavProps) => {
   const location = useLocation();
+  const [isHovering, setIsHovering] = useState(false);
   
   const navItems = [
     { label: "HOOD FITS", path: "/clothingpages/hoodfits" },
@@ -18,43 +20,43 @@ export const VerticalNav = ({ className = "" }: VerticalNavProps) => {
   ];
 
   return (
-    <div className={`fixed right-6 lg:right-12 top-1/2 transform -translate-y-1/2 z-40 ${className}`}>
-      <div className="flex flex-col gap-4">
+    <div 
+      className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40 ${className}`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <div className={`flex flex-row gap-2 transition-all duration-500 ${isHovering ? 'opacity-100' : 'opacity-30'}`}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
             <Link to={item.path} key={item.path} className="relative group">
               <div 
                 className={`
-                  w-3 h-16 rounded-full transition-all duration-300 border border-[#000000] relative
+                  relative h-16 w-32 flex items-center justify-center rounded-lg 
+                  transition-all duration-300 backdrop-blur-[2px]
                   ${isActive 
-                    ? 'bg-[#000000] shadow-[0_0_10px_rgba(0,0,0,0.6)]' 
-                    : 'bg-[#EFEBDF] hover:bg-[#000000] hover:shadow-[0_0_8px_rgba(0,0,0,0.4)]'
+                    ? 'bg-black/80 text-white' 
+                    : 'bg-transparent text-black/70 border border-black/20 hover:border-black hover:bg-black/70 hover:text-white'
                   }
                 `}
               >
-                <span className="sr-only">{item.label}</span>
-                {isActive && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full -z-10 opacity-20 blur-sm bg-[#000000]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.2 }}
-                    transition={{ duration: 1, repeat: Infinity, repeatType: 'reverse' }}
-                  />
+                <span 
+                  className={`text-sm font-bold tracking-tight uppercase transition-colors duration-300 px-1 text-center
+                    ${isActive ? 'text-white' : 'text-black/70 group-hover:text-white'}`}
+                >
+                  {item.label}
+                </span>
+                
+                {/* Hover or active gradient effect - only visible when container is hovered or active */}
+                {(isHovering || isActive) && (
+                  <div className={`absolute inset-0 rounded-lg bg-gradient-to-t from-black/10 to-transparent transition-opacity duration-300 ${isActive ? 'opacity-60' : 'opacity-0 group-hover:opacity-30'}`}></div>
+                )}
+                
+                {/* Bottom subtle indicator - only visible when active */}
+                {isActive && isHovering && (
+                  <div className="absolute -bottom-1 left-1/2 w-3/4 h-0.5 bg-black transform -translate-x-1/2 blur-sm rounded-full"></div>
                 )}
               </div>
-              <span 
-                className={`
-                  absolute top-1/2 -right-[110px] -translate-y-1/2 whitespace-nowrap text-sm font-heading font-semibold
-                  transition-colors duration-300
-                  ${isActive 
-                    ? 'text-[#EFEBDF]' 
-                    : 'text-[#000000] group-hover:text-[#EFEBDF]'
-                  }
-                `}
-              >
-                {item.label}
-              </span>
             </Link>
           );
         })}
