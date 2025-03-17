@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Youtube, Linkedin, DollarSign, Share2, Users, Briefcase } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Linkedin, Share2, Users, Briefcase } from "lucide-react";
 
 export const Footer = () => {
   const socialLinks = [
@@ -36,15 +36,25 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#201F1F] text-[#EFEBDF] py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <footer className="bg-[#000000] text-[#EFEBDF] py-16 relative overflow-hidden">
+      {/* Large background tagline text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <h2 className="text-[15vw] md:text-[12vw] font-heading font-bold text-[#201F1F]/10 whitespace-nowrap select-none tracking-tight">
+          THE BOX? BREAK IT!
+        </h2>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 mb-12">
           {/* Left Section - Contact */}
           <div>
-            <h3 className="font-heading text-2xl mb-6">CONTACT US</h3>
+            <h3 className="font-heading text-5xl md:text-6xl mb-8">
+              <span className="text-[#1AFF00]">Contact</span>{" "}
+              <span className="text-[#EFEBDF]">US</span>
+            </h3>
             
             {/* Social Media Links */}
-            <div className="flex space-x-4 mb-8">
+            <div className="flex space-x-5 mb-10">
               {socialLinks.map((social, index) => (
                 <a 
                   key={index} 
@@ -60,12 +70,12 @@ export const Footer = () => {
             </div>
             
             {/* Policies */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {policyLinks.map((policy, index) => (
                 <Link 
                   key={index}
                   to={policy.href}
-                  className="opacity-80 hover:opacity-100 hover:text-[#1AFF00] transition-colors"
+                  className="text-sm md:text-base opacity-70 hover:opacity-100 hover:text-[#1AFF00] transition-colors"
                 >
                   {policy.title}
                 </Link>
@@ -73,21 +83,21 @@ export const Footer = () => {
             </div>
           </div>
           
-          {/* Right Section - Make Money */}
-          <div>
-            <h3 className="font-heading text-2xl mb-6">
-              MAKE <span className="text-[#1AFF00]">MONEY</span> WITH US
+          {/* Right Section - Make Money - Aligned to the right */}
+          <div className="md:text-right md:flex md:flex-col md:items-end">
+            <h3 className="font-heading text-5xl md:text-6xl mb-8">
+              <span className="text-[#1AFF00]">Make Money</span> with us
             </h3>
             
-            <div className="space-y-4">
+            <div className="space-y-5">
               {moneyLinks.map((link, index) => (
                 <div key={index}>
                   <Link 
                     to={link.href}
-                    className="flex items-center opacity-90 hover:opacity-100 transition-all group"
+                    className="flex items-center opacity-90 hover:opacity-100 transition-all group md:justify-end"
                   >
-                    {link.icon}
-                    <span className="font-heading group-hover:text-[#1AFF00]">{link.title}</span>
+                    <span className="font-heading text-xl group-hover:text-[#1AFF00] md:order-1">{link.title}</span>
+                    <span className="md:order-2 md:ml-2 flex-shrink-0">{link.icon}</span>
                   </Link>
                 </div>
               ))}
@@ -95,7 +105,7 @@ export const Footer = () => {
           </div>
         </div>
         
-        <div className="mt-12 pt-6 border-t border-[#EFEBDF]/10 text-center text-sm opacity-60">
+        <div className="mt-16 pt-8 border-t border-[#EFEBDF]/10 text-center text-sm opacity-60">
           <p>© {new Date().getFullYear()} X57 | All Rights Reserved</p>
         </div>
       </div>

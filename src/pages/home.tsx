@@ -11,7 +11,7 @@ export default function Home() {
         <div className="relative w-full mt-8 md:mt-6 z-10">
           {/* Mobile view: Stacked and left-aligned text */}
           <div className="flex flex-col items-start pl-4 md:hidden">
-            <span className="font-heading text-4xl font-bold">STEERING_</span>
+            <span className="font-heading text-4xl font-bold">STEERING</span>{" "}
             <span className="font-playwrite italic text-[#1AFF00] text-3xl my-2 playwrite-gb-j-guides-regular-italic drop-shadow-[0_0_8px_#1AFF00]">
               Lifestyle
             </span>
