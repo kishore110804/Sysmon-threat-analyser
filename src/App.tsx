@@ -1,10 +1,12 @@
 import { Route, Routes } from "react-router-dom"
+import { FirebaseProvider } from "./providers/firebase-provider"
 
 import Home from "./pages/home"
 import Hoods from "./pages/hoods"
 import Kudos from "./pages/kudos"
 import Cart from "./pages/cart"
 import Profile from "./pages/profile"
+import CoCreations from "./pages/cocreations"
 
 // Policy Pages
 import TermsOfService from "./pages/policies/terms"
@@ -27,7 +29,7 @@ import FlowPants from "./pages/clothingpages/flowpants"
 
 function App() {
   return (
-    <>
+    <FirebaseProvider>
       <div className="relative flex min-h-screen flex-col">
         <div className="flex-1">
           <Routes>
@@ -36,6 +38,7 @@ function App() {
             <Route path="/kudos" element={<Kudos />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/cocreations" element={<CoCreations />} />
             
             {/* Policy Pages */}
             <Route path="/policies/terms" element={<TermsOfService />} />
@@ -58,7 +61,7 @@ function App() {
           </Routes>
         </div>
       </div>
-    </>
+    </FirebaseProvider>
   )
 }
 

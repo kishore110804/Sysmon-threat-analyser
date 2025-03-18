@@ -1,6 +1,6 @@
-import React from 'react';
+
 import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
+
 import VerticalNav from '@/components/vertical-nav';
 
 export default function HoodFits() {
@@ -23,7 +23,7 @@ export default function HoodFits() {
           </div>
         </div>
       </section>
-      <Footer />
+      
     </>
   );
 }

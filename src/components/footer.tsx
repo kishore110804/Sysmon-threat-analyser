@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DollarSign } from "lucide-react";
+import { DollarSign, ArrowRight } from "lucide-react";
 import { VerticalNav } from "./vertical-nav";
 
 export const Footer = () => {
@@ -12,15 +12,15 @@ export const Footer = () => {
 
   const moneyLinks = [
     { 
-      title: "Share and Earn", 
+      title: "Share and earn", 
       href: "/makemoney/share",
     },
     { 
-      title: "Collaboration? We are in", 
+      title: "Collaboration? We are In!", 
       href: "/makemoney/collaborate",
     },
     { 
-      title: "Become an X57 Sales Executive", 
+      title: "Become a sales executive ", 
       href: "/makemoney/sales",
     },
   ];
@@ -73,21 +73,30 @@ export const Footer = () => {
               </div>
             </div>
             
-            {/* Right Section - Make Money - Aligned to the right */}
+            {/* Right Section - Make Money - Aligned to the right - IMPROVED */}
             <div className="md:text-right md:flex md:flex-col md:items-end">
-              <h3 className="font-heading text-4xl md:text-5xl mb-4 flex items-center md:justify-end">
-                <span className="text-[#1AFF00]">Make Money
-                <DollarSign className="text-[#1AFF00] h-6 w-6 md:h-8 md:w-8 inline-flex mr-1 md:mr-2" /></span> with us
+              <h3 className="font-heading text-5xl md:text-5xl mb-5 flex items-center md:justify-end text-[#1AFF00]">
+                <DollarSign className="h-8 w-8 md:h-10 md:w-10 inline-flex mr-1 md:mr-2" />
+                <span>Make Money</span>
               </h3>
               
-              <div className="grid grid-cols-1 gap-y-1">
+              <div className="grid grid-cols-1 gap-y-3">
                 {moneyLinks.map((link, index) => (
-                  <div key={index}>
+                  <div key={index} className="group">
                     <Link 
                       to={link.href}
-                      className="text-xs md:text-sm opacity-90 hover:opacity-100 transition-all group md:justify-end hover:text-[#1AFF00]"
+                      className="relative flex items-center md:justify-end text-sm md:text-base opacity-90 
+                                hover:opacity-100 transition-all bg-black hover:bg-black/80 p-3 rounded-md border
+                                border-[#1AFF00]/20 hover:border-[#1AFF00]/80 hover:shadow-[0_0_10px_rgba(26,255,0,0.2)]"
                     >
-                      {link.title}
+                      <span className="font-heading tracking-tight text-white group-hover:text-[#1AFF00] transition-colors">
+                        {link.title}
+                      </span>
+                      <ArrowRight 
+                        size={16} 
+                        className="ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 
+                                  transition-all duration-300 text-[#1AFF00]" 
+                      />
                     </Link>
                   </div>
                 ))}

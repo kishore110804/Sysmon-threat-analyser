@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+
 import { useState } from "react";
 
 type VerticalNavProps = {
@@ -25,7 +25,7 @@ export const VerticalNav = ({ className = "" }: VerticalNavProps) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className={`flex flex-row gap-2 transition-all duration-500 ${isHovering ? 'opacity-100' : 'opacity-30'}`}>
+      <div className={`flex flex-row gap-2 transition-all duration-500 ${isHovering || location.pathname.includes('/clothingpages/') ? 'opacity-100' : 'opacity-30'}`}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -35,27 +35,30 @@ export const VerticalNav = ({ className = "" }: VerticalNavProps) => {
                   relative h-16 w-32 flex items-center justify-center rounded-lg 
                   transition-all duration-300 backdrop-blur-[2px]
                   ${isActive 
-                    ? 'bg-black/80 text-white' 
+                    ? 'bg-black/90 text-white border border-black' 
                     : 'bg-transparent text-black/70 border border-black/20 hover:border-black hover:bg-black/70 hover:text-white'
                   }
                 `}
               >
+                {/* Active state box glow - no shadows */}
+                {isActive && (
+                  <div className="absolute -inset-[2px] rounded-lg bg-black/5 z-[-1]">
+                    <div className="absolute inset-0 rounded-lg animate-pulse" 
+                      style={{ 
+                        boxShadow: '0 0 15px 2px rgba(0,0,0,0.3)', 
+                        animation: 'pulse 2s infinite' 
+                      }} 
+                    />
+                  </div>
+                )}
+
+                {/* Label text - no glow */}
                 <span 
                   className={`text-sm font-bold tracking-tight uppercase transition-colors duration-300 px-1 text-center
                     ${isActive ? 'text-white' : 'text-black/70 group-hover:text-white'}`}
                 >
                   {item.label}
                 </span>
-                
-                {/* Hover or active gradient effect - only visible when container is hovered or active */}
-                {(isHovering || isActive) && (
-                  <div className={`absolute inset-0 rounded-lg bg-gradient-to-t from-black/10 to-transparent transition-opacity duration-300 ${isActive ? 'opacity-60' : 'opacity-0 group-hover:opacity-30'}`}></div>
-                )}
-                
-                {/* Bottom subtle indicator - only visible when active */}
-                {isActive && isHovering && (
-                  <div className="absolute -bottom-1 left-1/2 w-3/4 h-0.5 bg-black transform -translate-x-1/2 blur-sm rounded-full"></div>
-                )}
               </div>
             </Link>
           );

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import { Share2 } from 'lucide-react';

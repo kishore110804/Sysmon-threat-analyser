@@ -1,6 +1,6 @@
-import React from 'react';
+
 import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
+
 import VerticalNav from '@/components/vertical-nav';
 
 export default function MiniMoves() {
@@ -23,7 +23,7 @@ export default function MiniMoves() {
           </div>
         </div>
       </section>
-      <Footer />
+     
     </>
   );
 }
