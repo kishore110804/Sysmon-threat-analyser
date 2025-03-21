@@ -16,7 +16,8 @@ import ShippingPolicy from "./pages/policies/shipping"
 
 // Make Money Pages
 import ShareAndEarn from "./pages/makemoney/share"
-import Collaborate from "./pages/makemoney/collaborate"
+import CollaborateForm1 from "./pages/makemoney/collaborate/page1"
+import CollaborateForm2 from "./pages/makemoney/collaborate/page2"
 import SalesExecutive from "./pages/makemoney/sales"
 
 // Clothing Pages
@@ -48,7 +49,8 @@ function App() {
             
             {/* Make Money Pages */}
             <Route path="/makemoney/share" element={<ShareAndEarn />} />
-            <Route path="/makemoney/collaborate" element={<Collaborate />} />
+            <Route path="/makemoney/collaborate/page1" element={<CollaborateForm1/>} />
+            <Route path="/makemoney/collaborate/page2" element={<CollaborateForm2/>} />
             <Route path="/makemoney/sales" element={<SalesExecutive />} />
             
             {/* Clothing Pages */}

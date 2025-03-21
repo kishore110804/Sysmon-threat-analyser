@@ -16,7 +16,7 @@ export const Footer = () => {
     },
     { 
       title: "Collaboration? We are In!", 
-      href: "/makemoney/collaborate",
+      href: "/makemoney/collaborate/page1",
     },
     { 
       title: "Become a sales executive ", 
