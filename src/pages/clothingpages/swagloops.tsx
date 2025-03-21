@@ -1,14 +1,11 @@
-
 import Navbar from '@/components/navbar';
-
 import VerticalNav from '@/components/vertical-nav';
 
 export default function SwagLoops() {
   return (
     <>
       <Navbar />
-      <VerticalNav />
-      <section className="container mx-auto py-16 px-4 mt-10">
+      <section className="container mx-auto py-16 px-4 mt-10 pb-24">
         <div className="flex flex-col items-start gap-2 mb-8">
           <h1 className="text-5xl md:text-7xl font-heading font-bold">SWAG LOOPS</h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
@@ -23,7 +20,7 @@ export default function SwagLoops() {
           </div>
         </div>
       </section>
-     
+      <VerticalNav />
     </>
   );
 }

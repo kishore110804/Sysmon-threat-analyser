@@ -3,6 +3,7 @@ import Footer from '@/components/footer';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { VerticalNav } from "@/components/vertical-nav";
 
 export default function Home() {
   // State to control the flicker/glitch effect
@@ -25,95 +26,81 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <section className="container relative min-h-[80vh] flex flex-col items-start justify-start pt-16 md:pt-20 overflow-hidden">
-        {/* Text wrapper - controls overall positioning */}
-        <div className="relative w-full mt-8 md:mt-6 z-10">
-          {/* Mobile view: Stacked and left-aligned text */}
-          <div className="flex flex-col items-start pl-4 md:hidden">
-            <span className="font-heading text-4xl font-bold">STEERING</span>
-            <div className="relative my-2">
-              <span className={`
-                font-playwrite italic text-[#1AFF00] text-3xl playwrite-gb-j-guides-regular-italic
-                inline-block transition-all duration-100 w-auto
-                ${isGlitching ? 
-                  'opacity-70 drop-shadow-[0_0_20px_#1AFF00] blur-[0.5px]' : 
-                  'drop-shadow-[0_0_8px_#1AFF00]'
-                }
-              `}>
-                Lifestyle
+      
+      <section className="container relative min-h-[90vh] pt-16 md:pt-20 overflow-hidden">
+        {/* Main content area - restructured */}
+        <div className="w-full flex flex-col md:flex-row justify-between relative">
+          {/* Left side: Text content stack and button */}
+          <div className="w-full md:w-1/2 pl-4 md:pl-10 relative z-10">
+            <div className="flex flex-col items-start">
+              <span className="font-heading text-4xl md:text-6xl lg:text-[8rem] font-bold text-left tracking-tighter leading-none">
+                STEERING
               </span>
-              {isGlitching && (
-                <span className="absolute top-0 left-[2px] font-playwrite italic text-[#1AFF00]/30 text-3xl playwrite-gb-j-guides-regular-italic blur-[0.3px]">
+              
+              <div className="relative my-2 md:my-4">
+                <span className={`
+                  font-playwrite italic text-[#1AFF00] text-3xl md:text-6xl lg:text-8xl playwrite-gb-j-guides-regular-italic
+                  block text-left transition-all duration-100 leading-none
+                  ${isGlitching ? 
+                    'opacity-80 drop-shadow-[0_0_25px_#1AFF00] blur-[0.7px]' : 
+                    'drop-shadow-[0_0_15px_#1AFF00]'
+                  }
+                `}>
                   Lifestyle
                 </span>
-              )}
-            </div>
-            <span className="font-heading text-4xl font-bold text-black">XD</span>
-          </div>
-          
-          {/* Desktop view: Left-aligned flowing text layout */}
-          <div className="hidden md:block">
-            <div className="flex flex-wrap items-start justify-start md:justify-start pl-8 lg:pl-12">
-              <div className="w-full md:w-auto">
-                <span className="font-heading text-7xl lg:text-9xl font-bold block text-left">
-                  STEERING
-                </span>
-              </div>
-              
-              <div className="w-full md:w-auto">
-                <div className="relative">
-                  <span className={`
-                    font-playwrite italic text-[#1AFF00] text-6xl lg:text-8xl playwrite-gb-j-guides-regular-italic
-                    block text-left transition-all duration-100
-                    ${isGlitching ? 
-                      'opacity-80 drop-shadow-[0_0_25px_#1AFF00] blur-[0.7px]' : 
-                      'drop-shadow-[0_0_15px_#1AFF00]'
-                    }
-                  `}>
+                {/* Simple ghost copy for glitch */}
+                {isGlitching && (
+                  <span className="absolute top-0 left-[3px] font-playwrite italic text-[#1AFF00]/20 text-3xl md:text-6xl lg:text-8xl playwrite-gb-j-guides-regular-italic blur-[0.5px]">
                     Lifestyle
                   </span>
-                  {/* Simple ghost copy for glitch */}
-                  {isGlitching && (
-                    <>
-                      <span className="absolute top-0 left-[3px] font-playwrite italic text-[#1AFF00]/20 text-6xl lg:text-8xl playwrite-gb-j-guides-regular-italic blur-[0.5px]">
-                        Lifestyle
-                      </span>
-                    </>
-                  )}
-                </div>
+                )}
               </div>
               
-              <div className="w-full md:w-auto">
-                <span className="font-heading text-7xl lg:text-9xl font-bold block text-left">
-                  XD
-                </span>
+              <div className="font-heading text-4xl md:text-6xl lg:text-[8rem] font-bold text-left tracking-tighter leading-none mb-8 mt-6">
+                <span>X</span>
+                <span className={`${isGlitching ? 'text-[#1AFF00]' : ''} transition-colors duration-100`}>D</span>
               </div>
+              
+              {/* Co-Creations button now positioned below XD text */}
+              <Link
+                to="/cocreations"
+                className="group py-4 px-8 w-full sm:w-auto rounded-lg flex items-center justify-center transition-all duration-300 
+                   border-2 border-[#1AFF00] text-[#1AFF00] 
+                   hover:bg-[#1AFF00] hover:text-black
+                   shadow-[0_0_15px_rgba(26,255,0,0.2)]
+                   hover:shadow-[0_0_20px_rgba(26,255,0,0.4)]"
+              >
+                <span className="font-heading tracking-wide text-xl md:text-2xl font-bold">check out our Co-Creations</span>
+                <ArrowRight className="ml-3 h-5 w-5 transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
             </div>
           </div>
-        </div>
-        
-        {/* Hoodie image positioned lower on page */}
-        <div className="w-full max-w-2xl mx-auto mt-12 md:mt-24 mb-24">
-          <img 
-            src="/hood.png" 
-            alt="Falling hoodie 3D render" 
-            className="w-full object-contain"
-          />
-        </div>
-        
-        {/* COCreations Button - Border Glow Effect */}
-        <div className="absolute bottom-0 left-0 right-0 w-full flex justify-center mb-12 z-20">
-          <Link
-            to="/cocreations"
-            className="group w-4/5 max-w-4xl py-4 rounded-lg flex items-center justify-center transition-all duration-300 
-               border-2 border-[#1AFF00] text-[#1AFF00] 
-               hover:bg-[#1AFF00] hover:text-black
-               shadow-[0_0_15px_rgba(26,255,0,0.2)]
-               hover:shadow-[0_0_20px_rgba(26,255,0,0.4)]"
-          >
-            <span className="font-heading tracking-wide text-xl md:text-2xl font-bold">check out our Co-Creations</span>
-            <ArrowRight className="ml-3 h-5 w-5 transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300" />
-          </Link>
+          
+          {/* Right side: SVG elements and Hoodie image */}
+          <div className="w-full md:w-1/2 flex flex-col justify-between relative">
+            {/* Hoodie image - only visible on tablet/desktop */}
+            <div className="hidden md:block absolute right-4 lg:right-10 top-1/2 transform -translate-y-1/2 z-0">
+              <img 
+                src="/hood.png" 
+                alt="Floating hoodie" 
+                className="w-auto h-[450px] lg:h-[550px] object-contain opacity-85 hover:opacity-100 transition-opacity duration-300"
+              />
+            </div>
+            
+            {/* SVG elements positioned in bottom right */}
+            <div className="absolute bottom-10 right-8 md:right-10 flex flex-col gap-6 md:gap-8 items-end z-10">
+              <img 
+                src="/ran.svg" 
+                alt="Ransom SVG" 
+                className="h-32 w-32 md:h-40 md:w-40 hover:rotate-3 transition-transform duration-500" 
+              />
+              <img 
+                src="/tenor.gif.svg" 
+                alt="Tenor SVG" 
+                className="h-32 w-32 md:h-40 md:w-40 hover:rotate-[-3deg] transition-transform duration-500" 
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -130,8 +117,10 @@ export default function Home() {
             We're working on bringing you the best selection of products. Check back soon!
           </p>
         </div>
+       
       </section>
-      
+       
+      <VerticalNav />
       <Footer />
     </>
   );

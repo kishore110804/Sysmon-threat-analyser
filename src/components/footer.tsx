@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { DollarSign, ArrowRight } from "lucide-react";
-import { VerticalNav } from "./vertical-nav";
 
 export const Footer = () => {
   const policyLinks = [
@@ -27,9 +26,6 @@ export const Footer = () => {
 
   return (
     <>
-      {/* Vertical Navigation - Positioned outside of the footer */}
-      <VerticalNav />
-      
       {/* Footer with black background */}
       <footer className="bg-[#000000] text-[#EFEBDF] py-10 relative overflow-hidden">
         {/* Large background tagline text positioned at bottom */}

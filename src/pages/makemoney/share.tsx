@@ -1,12 +1,10 @@
 
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { Share2 } from 'lucide-react';
 
 export default function ShareAndEarn() {
   return (
     <>
-      <Navbar />
+      
       <section className="container mx-auto py-16 px-4">
         <div className="flex items-center mb-6">
           <Share2 size={32} className="text-[#1AFF00] mr-3" />
@@ -31,7 +29,7 @@ export default function ShareAndEarn() {
           {/* Add signup form or more content here */}
         </div>
       </section>
-      <Footer />
+      
     </>
   );
 }

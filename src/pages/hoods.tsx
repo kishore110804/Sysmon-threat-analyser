@@ -1,5 +1,6 @@
 
 import Navbar from '@/components/navbar';
+import VerticalNav from '@/components/vertical-nav';
 
 export default function Hoods() {
   return (
@@ -15,6 +16,7 @@ export default function Hoods() {
           </p>
         </div>
       </section>
+      <VerticalNav />
     </>
   );
 }

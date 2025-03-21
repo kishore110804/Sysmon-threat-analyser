@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function Kudos() {
   return (
-    <div className="min-h-screen bg-[#EFEBDF] flex flex-col items-center justify-center px-4 relative">
+    <div className="min-h-screen bg-[#eceae4] flex flex-col items-center justify-center px-4 relative">
       {/* Back button in the left */}
       <Link 
         to="/" 

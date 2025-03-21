@@ -1,12 +1,11 @@
 
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
+
 import { Briefcase } from 'lucide-react';
 
 export default function SalesExecutive() {
   return (
     <>
-      <Navbar />
+    
       <section className="container mx-auto py-16 px-4">
         <div className="flex items-center mb-6">
           <Briefcase size={32} className="text-[#1AFF00] mr-3" />
@@ -32,7 +31,7 @@ export default function SalesExecutive() {
           {/* Add application form or more content here */}
         </div>
       </section>
-      <Footer />
+      
     </>
   );
 }
