@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Users } from 'lucide-react';
 
 export default function CollaborateForm1() {
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ export default function CollaborateForm1() {
           {/* Left column: Value Proposition */}
           <div className="md:w-1/3">
             <div className="flex items-center mb-6">
-              <span className="text-[#1AFF00] mr-3">👥</span>
+              <Users size={32} className="text-[#1AFF00] mr-3" />
               <h2 className="text-2xl font-heading">Design Partnership</h2>
             </div>
             <p className="text-lg mb-6">
@@ -97,7 +97,7 @@ export default function CollaborateForm1() {
 
           {/* Right column: Form */}
           <div className="md:w-2/3">
-            <form onSubmit={handleNext} className="bg-white p-6 rounded-lg shadow-lg">
+            <form onSubmit={handleNext} className="bg-[#eceae4] border border-black/10 p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-heading mb-6">Custom Design Request</h3>
 
               {/* Organization/Team Name */}
@@ -110,7 +110,7 @@ export default function CollaborateForm1() {
                   required
                   value={formData.organizationName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
@@ -124,19 +124,26 @@ export default function CollaborateForm1() {
                   required
                   value={formData.contactPersonName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
               {/* Instagram Handle */}
-                <div className="mb-5">
-                  <label htmlFor="instagramHandle" className="block text-sm font-medium mb-1">Instagram Handle (optional)</label>
-                  <div className="flex items-center border border-black/20 rounded-md overflow-hidden">
-                    <span className="px-4 py-3 bg-gray-200 text-gray-600">@</span>
-                    <input type="text" id="instagramHandle" name="instagramHandle" value={formData.instagramHandle} onChange={handleChange} className="w-full px-4 py-3 bg-white border-l border-black/20" placeholder="yourusername"/>
-                  </div>
+              <div className="mb-5">
+                <label htmlFor="instagramHandle" className="block text-sm font-medium mb-1">Instagram Handle (optional)</label>
+                <div className="flex items-center">
+                  <span className="inline-flex items-center px-3 py-3 bg-black/5 border border-r-0 border-black/20 rounded-l-md text-gray-600">@</span>
+                  <input 
+                    type="text" 
+                    id="instagramHandle" 
+                    name="instagramHandle" 
+                    value={formData.instagramHandle} 
+                    onChange={handleChange} 
+                    className="flex-1 px-4 py-3 bg-white border border-black/20 rounded-r-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50" 
+                    placeholder="yourusername"
+                  />
                 </div>
-
+              </div>
 
               {/* Email Address */}
               <div className="mb-5">
@@ -148,7 +155,7 @@ export default function CollaborateForm1() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
@@ -161,7 +168,7 @@ export default function CollaborateForm1() {
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
@@ -174,7 +181,7 @@ export default function CollaborateForm1() {
                   name="eventName"
                   value={formData.eventName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
@@ -187,7 +194,7 @@ export default function CollaborateForm1() {
                   name="eventDate"
                   value={formData.eventDate}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50"
                 />
               </div>
 
@@ -200,7 +207,7 @@ export default function CollaborateForm1() {
                   required
                   value={formData.urgencyLevel}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md">
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1AFF00]/50">
                   <option value="">Select urgency level</option>
                   <option value="normal">Normal</option>
                   <option value="priority">Priority</option>
@@ -211,7 +218,7 @@ export default function CollaborateForm1() {
               {/* Next Button */}
               <button
                 type="submit"
-                className="w-full py-3 bg-black text-white font-medium rounded-md hover:bg-black/90"
+                className="w-full py-3 rounded-md bg-black text-white font-medium transition-all hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black"
               >
                 Next
               </button>
@@ -219,6 +226,10 @@ export default function CollaborateForm1() {
           </div>
         </div>
       </div>
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-1/4 right-10 w-32 h-32 rounded-full bg-[#1AFF00]/5 blur-3xl -z-10"></div>
+      <div className="absolute bottom-1/4 left-10 w-40 h-40 rounded-full bg-black/5 blur-3xl -z-10"></div>
     </div>
   );
 }
