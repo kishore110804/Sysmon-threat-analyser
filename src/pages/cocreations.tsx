@@ -47,7 +47,7 @@ export default function CoCreations() {
       {/* "Create Your Own" button */}
       <div className="text-center">
         <Link 
-          to="/makemoney/collaborate"
+          to="/makemoney/collaborate/page1"
           className="group bg-black text-white px-10 py-4 rounded-lg font-heading text-xl hover:bg-black/80 transition-all flex items-center justify-center"
         >
           Create Your Own Collection
