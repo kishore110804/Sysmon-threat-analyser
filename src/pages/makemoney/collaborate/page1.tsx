@@ -6,6 +6,7 @@ export default function CollaborateForm1() {
   const [formData, setFormData] = useState({
     organizationName: '',
     contactPersonName: '',
+    instagramHandle: '',
     email: '',
     phoneNumber: '',
     eventName: '',
@@ -127,6 +128,16 @@ export default function CollaborateForm1() {
                 />
               </div>
 
+              {/* Instagram Handle */}
+                <div className="mb-5">
+                  <label htmlFor="instagramHandle" className="block text-sm font-medium mb-1">Instagram Handle (optional)</label>
+                  <div className="flex items-center border border-black/20 rounded-md overflow-hidden">
+                    <span className="px-4 py-3 bg-gray-200 text-gray-600">@</span>
+                    <input type="text" id="instagramHandle" name="instagramHandle" value={formData.instagramHandle} onChange={handleChange} className="w-full px-4 py-3 bg-white border-l border-black/20" placeholder="yourusername"/>
+                  </div>
+                </div>
+
+
               {/* Email Address */}
               <div className="mb-5">
                 <label htmlFor="email" className="block text-sm font-medium mb-1">Email Address</label>
@@ -189,8 +200,7 @@ export default function CollaborateForm1() {
                   required
                   value={formData.urgencyLevel}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md"
-                >
+                  className="w-full px-4 py-3 bg-white border border-black/20 rounded-md">
                   <option value="">Select urgency level</option>
                   <option value="normal">Normal</option>
                   <option value="priority">Priority</option>
