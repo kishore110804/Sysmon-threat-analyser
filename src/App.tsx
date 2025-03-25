@@ -16,6 +16,9 @@ import AddressStep from "./pages/auth/onboarding/address"
 import RoleStep from "./pages/auth/onboarding/role"
 import OnboardingCompleted from "./pages/auth/onboarding/completed"
 
+// Designer Pages
+import DesignerApplication from "./pages/designer/apply"
+
 // Policy Pages
 import TermsOfService from "./pages/policies/terms"
 import PrivacyPolicy from "./pages/policies/privacy"
@@ -36,6 +39,14 @@ import SwagLoops from "./pages/clothingpages/swagloops"
 import CapsVault from "./pages/clothingpages/capsvault"
 import FlowPants from "./pages/clothingpages/flowpants"
 
+// Admin Pages
+import AdminRedirect from './pages/admin-redirect';
+import AdminDashboard from './pages/admin/index';
+import AdminSettings from './pages/admin/settings/index';
+import NewProductPage from './pages/admin/products/new';
+import DesignerApplicationsList from './pages/admin/designers/applications/index';
+import CommissionsPage from './pages/admin/finance/commissions';
+
 function App() {
   return (
     <FirebaseProvider>
@@ -48,6 +59,9 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cocreations" element={<CoCreations />} />
+            
+            {/* Designer Routes */}
+            <Route path="/designer/apply" element={<DesignerApplication />} />
             
             {/* Auth Routes */}
             <Route path="/auth" element={<AuthPage />} />
@@ -76,6 +90,14 @@ function App() {
             <Route path="/clothingpages/swagloops" element={<SwagLoops />} />
             <Route path="/clothingpages/capsvault" element={<CapsVault />} />
             <Route path="/clothingpages/flowpants" element={<FlowPants />} />
+
+            {/* Admin Pages */}
+            <Route path="/admin-redirect" element={<AdminRedirect />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+            <Route path="/admin/products/new" element={<NewProductPage />} />
+            <Route path="/admin/designers/applications" element={<DesignerApplicationsList />} />
+            <Route path="/admin/finance/commissions" element={<CommissionsPage />} />
           </Routes>
         </div>
       </div>

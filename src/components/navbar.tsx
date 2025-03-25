@@ -1,13 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, ShoppingCart, User } from "lucide-react";
+import { Home, ShoppingCart, User, Shield } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { isUserAdmin } from '@/scripts/setup-admin-users';
+import { useFirebase } from '@/providers/firebase-provider';
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [hideNav, setHideNav] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const { currentUser } = useFirebase();
   
   // Handle scroll events with debouncing
   const handleScroll = useCallback(() => {
@@ -46,6 +50,19 @@ export const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [handleScroll]);
+  
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (currentUser) {
+        const adminStatus = await isUserAdmin(currentUser.uid);
+        setIsAdmin(adminStatus);
+      } else {
+        setIsAdmin(false);
+      }
+    };
+    
+    checkAdminStatus();
+  }, [currentUser]);
   
   // Navigation items for reuse
   const navItems = [
@@ -178,6 +195,17 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Admin Dashboard Link */}
+      {isAdmin && (
+        <Link
+          to="/admin-redirect"
+          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+          <Shield size={16} />
+          Admin Dashboard
+        </Link>
+      )}
     </div>
   );
 };

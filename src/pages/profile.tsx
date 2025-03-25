@@ -1,148 +1,71 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '@/components/navbar';
 import { firestore } from '@/lib/firebase';
 import { useFirebase } from '@/providers/firebase-provider';
-import { User, ArrowRight } from 'lucide-react';
+import { User, ArrowRight, Shield, Cog } from 'lucide-react';
+import CustomerProfile from './profile/customer-profile';
+import ResellerProfile from './profile/reseller-profile';
+import DesignerProfile from './profile/designer-profile';
+import Navbar from '@/components/navbar';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
-  const { currentUser, logOut, loading } = useFirebase();
   const [userData, setUserData] = useState<any>(null);
-  const [userDataLoading, setUserDataLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useFirebase();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (currentUser) {
-        setUserDataLoading(true);
         try {
           const userDoc = await getDoc(doc(firestore, 'users', currentUser.uid));
           if (userDoc.exists()) {
-            setUserData(userDoc.data());
+            setUserData({ 
+              ...userDoc.data(),
+              id: currentUser.uid,
+              email: currentUser.email
+            });
+          } else {
+            // User document doesn't exist, redirect to onboarding
+            navigate('/auth/onboarding/name');
           }
         } catch (error) {
           console.error('Failed to fetch user data:', error);
         } finally {
-          setUserDataLoading(false);
+          setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
-  const handleLogout = async () => {
-    try {
-      await logOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Failed to log out:', error);
-    }
-  };
-
-  if (loading || userDataLoading) {
+  // Loading state
+  if (loading) {
     return (
       <>
         <Navbar />
-        <div className="container mt-20 flex justify-center">
-          <div className="animate-pulse">Loading...</div>
+        <div className="min-h-screen bg-[#eceae4] flex items-center justify-center">
+          <div className="animate-pulse flex flex-col items-center">
+            <div className="h-12 w-12 rounded-full bg-gray-300 mb-4"></div>
+            <div className="h-4 w-48 bg-gray-300 rounded"></div>
+          </div>
         </div>
       </>
     );
   }
 
-  return (
-    <>
-      <Navbar />
-      <section className="container grid items-center gap-6 pb-8 pt-16 md:py-20 min-h-screen">
-        {currentUser ? (
-          // User is signed in - show profile details
-          <div className="grid gap-6">
-            <div className="flex flex-col max-w-[980px] items-start gap-2">
-              <h1 className="text-3xl font-extrabold font-heading leading-tight md:text-4xl">
-                Welcome, {userData?.firstName || currentUser.displayName || currentUser.email}
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Manage your account and preferences.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* User Information */}
-              <div className="border border-border rounded-md p-6">
-                <h2 className="font-heading text-xl mb-4">Account Information</h2>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-2">
-                    <p className="font-medium">Email:</p>
-                    <p>{currentUser.email}</p>
-                  </div>
-                  
-                  {userData?.firstName && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <p className="font-medium">Name:</p>
-                      <p>{userData.firstName} {userData.lastName}</p>
-                    </div>
-                  )}
-                  
-                  {userData?.phone && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <p className="font-medium">Phone:</p>
-                      <p>{userData.phone}</p>
-                    </div>
-                  )}
-                  
-                  {userData?.role && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <p className="font-medium">Account Type:</p>
-                      <p className="capitalize">{userData.role}</p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 gap-2">
-                    <p className="font-medium">Account created:</p>
-                    <p>{new Date(currentUser.metadata.creationTime ?? Date.now()).toLocaleDateString()}</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Address Information - If available */}
-              {userData?.address && (
-                <div className="border border-border rounded-md p-6">
-                  <h2 className="font-heading text-xl mb-4">Shipping Address</h2>
-                  <div className="space-y-4">
-                    <p>{userData.address.street}</p>
-                    <p>
-                      {userData.address.city}, {userData.address.state} {userData.address.zipCode}
-                    </p>
-                    <p>{userData.address.country}</p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Order History - Placeholder */}
-              <div className="border border-border rounded-md p-6 col-span-1 md:col-span-2">
-                <h2 className="font-heading text-xl mb-4">Order History</h2>
-                <p className="text-muted-foreground">You haven't placed any orders yet.</p>
-              </div>
-              
-              {/* Actions */}
-              <div className="border border-border rounded-md p-6">
-                <h2 className="font-heading text-xl mb-4">Account Actions</h2>
-                <div className="space-y-3">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full px-4 py-2 bg-black text-white rounded hover:bg-black/80 transition-colors"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          // User is not signed in - show sign-in prompt
-          <div className="max-w-md mx-auto w-full">
+  // Not logged in state
+  if (!currentUser) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-[#eceae4] pt-24 pb-16 px-4 flex items-center justify-center">
+          <div className="max-w-md w-full">
             <div className="bg-white p-8 rounded-lg shadow-md border border-black/10 text-center">
               <div className="flex justify-center mb-6">
                 <div className="h-16 w-16 rounded-full bg-black/5 flex items-center justify-center">
@@ -165,8 +88,40 @@ export default function Profile() {
               </Link>
             </div>
           </div>
-        )}
-      </section>
-    </>
-  );
+        </div>
+      </>
+    );
+  }
+
+  // Render the appropriate profile based on user role
+  const userRole = userData?.role?.toLowerCase() || 'customer';
+
+  if (userData?.role === 'admin') {
+    return (
+      <div className="mb-6 bg-black text-white rounded-xl p-6 shadow-md">
+        <h2 className="text-xl font-bold mb-3 flex items-center">
+          <Shield size={20} className="mr-2" />
+          Admin Access
+        </h2>
+        <p className="mb-4">You have administrator privileges. Access the admin dashboard to manage the platform.</p>
+        <Link 
+          to="/admin" 
+          className="inline-flex items-center px-4 py-2 bg-[#1AFF00] text-black rounded-md hover:bg-[#1AFF00]/80 transition-colors font-medium"
+        >
+          <Cog size={16} className="mr-2" />
+          Access Admin Dashboard
+        </Link>
+      </div>
+    );
+  }
+
+  switch (userRole) {
+    case 'designer':
+      return <DesignerProfile userData={userData} />;
+    case 'reseller':
+      return <ResellerProfile userData={userData} />;
+    case 'customer':
+    default:
+      return <CustomerProfile userData={userData} />;
+  }
 }

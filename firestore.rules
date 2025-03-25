@@ -10,18 +10,66 @@ service cloud.firestore {
       allow delete: if request.auth != null && isAdmin();
     }
     
+    // Designer Applications - users can create and read their own, admins can manage all
+    match /designerApplications/{applicationId} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow update: if request.auth != null && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow delete: if request.auth != null && isAdmin();
+      
+      // Added for admin dashboard queries
+      allow list: if request.auth != null && isAdmin();
+    }
+    
     // Orders - users can read their own orders, admins can manage all
     match /orders/{orderId} {
       allow create: if request.auth != null;
-      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid || 
+        resource.data.designerId == request.auth.uid || 
+        resource.data.resellerId == request.auth.uid || 
+        isAdmin()
+      );
       allow update: if request.auth != null && isAdmin();
       allow delete: if request.auth != null && isAdmin();
+      
+      // Added for admin dashboard queries
+      allow list: if request.auth != null && isAdmin();
     }
     
     // Products - readable by everyone, writable only by admins
     match /products/{productId} {
       allow read: if true;
       allow write: if request.auth != null && isAdmin();
+      allow list: if true; // Allow anyone to list products
+    }
+    
+    // Designs - designer can create and manage their own designs, admins can manage all
+    match /designs/{designId} {
+      allow create: if request.auth != null && isVerifiedDesigner();
+      allow read: if true;
+      allow update: if request.auth != null && (
+        resource.data.designerId == request.auth.uid || isAdmin()
+      );
+      allow delete: if request.auth != null && isAdmin();
+      allow list: if true; // Allow anyone to list designs
+    }
+    
+    // Commissions - users can read their own commissions, admins can manage all
+    match /commissions/{commissionId} {
+      allow read: if request.auth != null && (
+        resource.data.designerId == request.auth.uid || 
+        resource.data.resellerId == request.auth.uid || 
+        isAdmin()
+      );
+      allow write: if request.auth != null && isAdmin();
+      
+      // Added for admin dashboard
+      allow list: if request.auth != null && isAdmin();
     }
     
     // Collaboration requests - users can create and read their own, admins can manage all
@@ -30,11 +78,30 @@ service cloud.firestore {
       allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
       allow update: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
       allow delete: if request.auth != null && isAdmin();
+      
+      // Added for admin dashboard
+      allow list: if request.auth != null && isAdmin();
+    }
+    
+    // Settings collection - admins can read and write
+    match /settings/{settingId} {
+      allow read: if true; // Allow all users to read settings
+      allow write: if request.auth != null && isAdmin();
     }
     
     // Helper function to check if user is an admin
     function isAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+      return request.auth != null && (
+        request.auth.token.email == "kishore110804n@gmail.com" ||
+        request.auth.token.email == "aakaashanoop@gmail.com" ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin"
+      );
+    }
+    
+    // Helper function to check if user is a verified designer
+    function isVerifiedDesigner() {
+      return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.designerVerification.status == "verified";
     }
   }
 }
