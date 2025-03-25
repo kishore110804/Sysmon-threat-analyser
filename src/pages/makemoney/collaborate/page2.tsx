@@ -30,7 +30,7 @@ export default function CollaborateForm2() {
   // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
   };
 
   // Handle checkbox changes
@@ -38,12 +38,12 @@ export default function CollaborateForm2() {
     const { value, checked } = e.target;
     
     if (checked) {
-      setFormData(prev => ({
+      setFormData((prev: { apparelType: any; }) => ({
         ...prev,
         apparelType: [...(Array.isArray(prev.apparelType) ? prev.apparelType : []), value]
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev: { apparelType: any[]; }) => ({
         ...prev,
         apparelType: Array.isArray(prev.apparelType) 
           ? prev.apparelType.filter(item => item !== value)
@@ -55,7 +55,7 @@ export default function CollaborateForm2() {
   // Handle file input changes
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, file }));
+    setFormData((prev: any) => ({ ...prev, file }));
   };
 
   // Handle form submission

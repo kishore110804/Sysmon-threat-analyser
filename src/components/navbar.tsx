@@ -60,7 +60,7 @@ export const Navbar = () => {
       label: "Cart"
     },
     {
-      path: "/profile",
+      path: "/auth",
       icon: <User size={20} />,
       label: "Profile"
     }

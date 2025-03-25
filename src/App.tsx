@@ -8,6 +8,14 @@ import Cart from "./pages/cart"
 import Profile from "./pages/profile"
 import CoCreations from "./pages/cocreations"
 
+// Auth Pages
+import AuthPage from "./pages/auth"
+import NameStep from "./pages/auth/onboarding/name"
+import PhoneStep from "./pages/auth/onboarding/phone"
+import AddressStep from "./pages/auth/onboarding/address"
+import RoleStep from "./pages/auth/onboarding/role"
+import OnboardingCompleted from "./pages/auth/onboarding/completed"
+
 // Policy Pages
 import TermsOfService from "./pages/policies/terms"
 import PrivacyPolicy from "./pages/policies/privacy"
@@ -40,6 +48,14 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cocreations" element={<CoCreations />} />
+            
+            {/* Auth Routes */}
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/auth/onboarding/name" element={<NameStep />} />
+            <Route path="/auth/onboarding/phone" element={<PhoneStep />} />
+            <Route path="/auth/onboarding/address" element={<AddressStep />} />
+            <Route path="/auth/onboarding/role" element={<RoleStep />} />
+            <Route path="/auth/onboarding/completed" element={<OnboardingCompleted />} />
             
             {/* Policy Pages */}
             <Route path="/policies/terms" element={<TermsOfService />} />
