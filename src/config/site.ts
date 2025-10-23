@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Sysmon Analyzer",
+  name: "Sysmon Threat Analyzer",
   description: "Threat detection and analysis platform mapping Sysmon logs to MITRE ATT&CK techniques.",
   mainNav: [
     {
