@@ -28,13 +28,13 @@ export default function VerifiedDesignersList() {
         const designersData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        })) as any[];
         
         // Filter by search query if provided
         let filteredData = designersData;
         if (searchQuery) {
           const lowerQuery = searchQuery.toLowerCase();
-          filteredData = designersData.filter(designer => 
+          filteredData = designersData.filter((designer: any) => 
             (designer.firstName && designer.firstName.toLowerCase().includes(lowerQuery)) ||
             (designer.lastName && designer.lastName.toLowerCase().includes(lowerQuery)) ||
             (designer.email && designer.email.toLowerCase().includes(lowerQuery))

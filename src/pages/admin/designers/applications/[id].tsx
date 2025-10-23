@@ -44,7 +44,7 @@ export default function ApplicationReviewPage() {
         const applicationData = {
           id: applicationDoc.id,
           ...applicationDoc.data()
-        };
+        } as any;
         
         setApplication(applicationData);
         
@@ -56,7 +56,7 @@ export default function ApplicationReviewPage() {
             setDesigner({
               id: designerDoc.id,
               ...designerDoc.data()
-            });
+            } as any);
           }
         }
       } catch (err) {

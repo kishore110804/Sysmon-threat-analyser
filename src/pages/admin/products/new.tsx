@@ -13,7 +13,7 @@ import { firestore, storage } from '@/lib/firebase';
 import AdminLayout from '@/components/admin/admin-layout';
 import { 
   PackagePlus, Search, Image, UploadCloud, PlusCircle, 
-  X, CheckCircle, ChevronDown, User, DollarSign 
+  X, CheckCircle, ChevronDown, User, DollarSign, Brush 
 } from 'lucide-react';
 
 type ProductCategory = 
@@ -188,10 +188,10 @@ export default function NewProductPage() {
         const allDesigners = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        })) as any[];
         
         // Filter client-side (Firestore doesn't support OR searches well)
-        const filteredDesigners = allDesigners.filter(designer => {
+        const filteredDesigners = allDesigners.filter((designer: any) => {
           const fullName = `${designer.firstName || ''} ${designer.lastName || ''}`.toLowerCase();
           const query = designerSearchQuery.toLowerCase();
           
@@ -231,10 +231,10 @@ export default function NewProductPage() {
         const allResellers = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        })) as any[];
         
         // Filter client-side
-        const filteredResellers = allResellers.filter(reseller => {
+        const filteredResellers = allResellers.filter((reseller: any) => {
           const fullName = `${reseller.firstName || ''} ${reseller.lastName || ''}`.toLowerCase();
           const query = resellerSearchQuery.toLowerCase();
           

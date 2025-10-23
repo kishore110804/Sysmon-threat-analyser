@@ -66,12 +66,12 @@ export default function CommissionsPage() {
         let fetchedCommissions = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        }));
+        })) as any[];
         
         // Apply search filter client-side
         if (searchQuery) {
           const lowerQuery = searchQuery.toLowerCase();
-          fetchedCommissions = fetchedCommissions.filter(com => 
+          fetchedCommissions = fetchedCommissions.filter((com: any) => 
             (com.designerName && com.designerName.toLowerCase().includes(lowerQuery)) ||
             (com.resellerName && com.resellerName.toLowerCase().includes(lowerQuery)) ||
             (com.productName && com.productName.toLowerCase().includes(lowerQuery))
@@ -79,7 +79,7 @@ export default function CommissionsPage() {
         }
         
         // Calculate totals
-        const calculatedTotals = fetchedCommissions.reduce((acc, curr) => {
+        const calculatedTotals = fetchedCommissions.reduce((acc: any, curr: any) => {
           const totalSale = curr.totalSales || 0;
           const designerCommission = totalSale * (curr.designerPercentage / 100) || 0;
           const resellerCommission = totalSale * (curr.resellerPercentage / 100) || 0;
