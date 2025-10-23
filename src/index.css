@@ -1,110 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
-/* Using a fallback method since 'Playwrite GB J Guides' may not be directly available on Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Array';
-  src: url('/fonts/Array-Regular.woff2') format('woff2'),
-       url('/fonts/Array-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Array';
-  src: url('/fonts/Array-Bold.woff2') format('woff2'),
-       url('/fonts/Array-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Array';
-  src: url('/fonts/Array-Semibold.woff2') format('woff2'),
-       url('/fonts/Array-Semibold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-/* Define Playwrite GB J Guides font class */
-.playwrite-gb-j-guides-regular {
-  font-family: "Playwrite GB J Guides", "Playfair Display", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.playwrite-gb-j-guides-regular-italic {
-  font-family: "Playwrite GB J Guides", "Playfair Display", cursive;
-  font-weight: 400;
-  font-style: italic;
-}
-
 @layer base {
   :root {
-    --background: 43 19% 91%; /* #EFEBDF */
-    --foreground: 0 1% 12%; /* #201F1F */
-
-    --card: 43 19% 91%;
-    --card-foreground: 0 1% 12%;
- 
-    --popover: 43 19% 91%;
-    --popover-foreground: 0 1% 12%;
- 
-    --primary: 0 1% 12%;
-    --primary-foreground: 43 19% 91%;
- 
-    --secondary: 108 100% 50%; /* #1AFF00 */
-    --secondary-foreground: 0 1% 12%;
- 
-    --muted: 43 19% 85%;
-    --muted-foreground: 0 1% 30%;
- 
-    --accent: 108 100% 50%;
-    --accent-foreground: 0 1% 12%;
- 
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 43 19% 91%;
-
-    --border: 0 1% 80%;
-    --input: 0 1% 80%;
-    --ring: 108 100% 50%;
- 
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
     --radius: 0.5rem;
   }
  
   .dark {
-    /* Always use light mode values as specified in requirements */
-    --background: 43 19% 91%;
-    --foreground: 0 1% 12%;
- 
-    --card: 43 19% 91%;
-    --card-foreground: 0 1% 12%;
- 
-    --popover: 43 19% 91%;
-    --popover-foreground: 0 1% 12%;
- 
-    --primary: 0 1% 12%;
-    --primary-foreground: 43 19% 91%;
- 
-    --secondary: 108 100% 50%;
-    --secondary-foreground: 0 1% 12%;
- 
-    --muted: 43 19% 85%;
-    --muted-foreground: 0 1% 30%;
- 
-    --accent: 108 100% 50%;
-    --accent-foreground: 0 1% 12%;
- 
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 8%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 43 19% 91%;
- 
-    --border: 0 1% 80%;
-    --input: 0 1% 80%;
-    --ring: 108 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 10%;
+    --input: 0 0% 10%;
+    --ring: 0 0% 100%;
   }
 }
  
@@ -112,20 +56,100 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    @apply dark;
+  }
+  
   body {
-    @apply bg-background text-foreground;
-    font-family: 'IBM Plex Mono', monospace;
+    @apply bg-[#000000] text-white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1, 'ss02' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+  
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Array', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+  
+  h1 {
+    font-weight: 700;
+    letter-spacing: -0.05em;
   }
 }
 
-/* Add glass effect utilities */
-.glass-effect {
-  @apply bg-opacity-70 backdrop-blur-md backdrop-saturate-150 backdrop-filter;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
 }
 
-.gradient-blur {
-  @apply after:absolute after:inset-0 after:bg-gradient-to-b after:from-[#EFEBDF]/70 after:to-transparent after:backdrop-blur-[2px] after:z-[-1];
+/* Vercel-style card hover effect */
+.vercel-card {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.vercel-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.vercel-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+.vercel-card:hover::before {
+  opacity: 1;
+}
+
+/* Gradient backgrounds */
+.gradient-bg {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.15), transparent);
+}
+
+.hero-gradient {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+}
+
+/* Shimmer effect for stats */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
 }

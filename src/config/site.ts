@@ -1,33 +1,21 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "X57",
-  description: "Premium fashion and accessories.",
+  name: "Sysmon Analyzer",
+  description: "Threat detection and analysis platform mapping Sysmon logs to MITRE ATT&CK techniques.",
   mainNav: [
     {
       title: "Home",
       href: "/",
     },
     {
-      title: "Hoods",
-      href: "/hoods",
-    },
-    {
-      title: "Kudos",
-      href: "/kudos",
-    },
-    {
-      title: "Cart",
-      href: "/cart",
-    },
-    {
-      title: "Profile",
-      href: "/profile",
+      title: "About",
+      href: "/about",
     },
   ],
   links: {
-    youtube: "https://youtube.com/@m6io",
-    github: "https://github.com/m6io/shadcn-vite-template",
-    docs: "https://ui.shadcn.com",
+    github: "https://github.com/kishore110804",
+    mitre: "https://attack.mitre.org",
+    docs: "https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon",
   },
 }

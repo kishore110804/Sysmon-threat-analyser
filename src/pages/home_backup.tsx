@@ -1,18 +1,77 @@
-﻿import { useState, useCallback } from 'react';
-import { Upload as UploadIcon, FileText, X, AlertTriangle, Info, CheckCircle, Download, FileJson, Activity, Shield, TrendingUp, BarChart3, Loader2, Sparkles } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Upload as UploadIcon, FileText, X, AlertTriangle, Info, CheckCircle, Download, FileJson, Activity, Shield, TrendingUp, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { analyzeSysmonFile, validateSysmonFile } from '@/lib/analyzer';
-import { AnalysisResult } from '@/types/sysmon';
-import { downloadSampleCSV } from '@/lib/sample-data-generator';
+
+interface Detection {
+  id: number;
+  technique: string;
+  name: string;
+  tactic: string;
+  severity: 'high' | 'medium' | 'low';
+  count: number;
+  description: string;
+  indicators: string[];
+}
 
 export default function Home() {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
-  const [analysisProgress, setAnalysisProgress] = useState('');
-  const [error, setError] = useState<string | null>(null);
+
+  // Mock analysis results with more data for visualizations
+  const analysisResults = {
+    fileName: 'sysmon_events.csv',
+    totalEvents: 1247,
+    analyzedAt: new Date().toISOString(),
+    processingTime: '847ms',
+    uniqueProcesses: 89,
+    networkConnections: 34,
+    fileModifications: 156,
+    registryChanges: 67,
+    detections: [
+      {
+        id: 1,
+        technique: 'T1059.001',
+        name: 'PowerShell',
+        tactic: 'Execution',
+        severity: 'high' as const,
+        count: 8,
+        description: 'Detected suspicious PowerShell execution with encoded commands',
+        indicators: ['encoded_command', 'download_cradle', 'hidden_window', 'bypass_policy']
+      },
+      {
+        id: 2,
+        technique: 'T1071.001',
+        name: 'Web Protocols',
+        tactic: 'Command and Control',
+        severity: 'medium' as const,
+        count: 3,
+        description: 'Suspicious network connections to external domains',
+        indicators: ['external_connection', 'webclient_usage', 'uncommon_port']
+      },
+      {
+        id: 3,
+        technique: 'T1027',
+        name: 'Obfuscated Files or Information',
+        tactic: 'Defense Evasion',
+        severity: 'medium' as const,
+        count: 5,
+        description: 'Base64 encoded content detected in command lines',
+        indicators: ['base64_encoding', 'string_concatenation', 'invoke_expression']
+      },
+    ],
+    severityBreakdown: {
+      high: 8,
+      medium: 8,
+      low: 0
+    },
+    topTactics: [
+      { name: 'Execution', count: 8 },
+      { name: 'Defense Evasion', count: 5 },
+      { name: 'Command and Control', count: 3 }
+    ]
+  };
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -29,14 +88,8 @@ export default function Home() {
     setIsDragging(false);
     
     const droppedFile = e.dataTransfer.files[0];
-    const validExtensions = ['.csv', '.txt', '.log'];
-    const hasValidExtension = validExtensions.some(ext => droppedFile?.name.toLowerCase().endsWith(ext));
-    
-    if (droppedFile && hasValidExtension) {
+    if (droppedFile && droppedFile.name.endsWith('.csv')) {
       setFile(droppedFile);
-      setError(null);
-    } else {
-      setError('Please drop a valid CSV, TXT, or LOG file');
     }
   }, []);
 
@@ -47,142 +100,21 @@ export default function Home() {
     }
   };
 
-  const handleAnalyze = async () => {
+  const handleAnalyze = () => {
     if (!file) return;
     
-    // Validate file
-    const validation = validateSysmonFile(file);
-    if (!validation.valid) {
-      setError(validation.error || 'Invalid file');
-      return;
-    }
-
     setIsAnalyzing(true);
-    setError(null);
-    setShowResults(false); // Ensure we're not showing results yet
-    setAnalysisProgress('Starting analysis...');
-
-    try {
-      // Run real analysis
-      const result = await analyzeSysmonFile(file, {
-        onProgress: (stage, progress) => {
-          setAnalysisProgress(`${stage} (${Math.round(progress)}%)`);
-        },
-      });
-
-      console.log('Analysis complete! Results:', result);
-      console.log('Total detections:', result.detections.length);
-      console.log('Detections:', result.detections.map(d => ({
-        id: d.id,
-        name: d.name,
-        technique: d.technique,
-        tactic: d.tactic,
-        severity: d.severity,
-        count: d.count
-      })));
-
-      setAnalysisResults(result);
-      setIsAnalyzing(false); // Stop analyzing before showing results
-      setShowResults(true); // Now show results
-      setAnalysisProgress('');
-    } catch (err) {
-      console.error('Analysis error:', err);
-      setError(err instanceof Error ? err.message : 'Analysis failed');
+    // Simulate analysis
+    setTimeout(() => {
       setIsAnalyzing(false);
-      setShowResults(false);
-    }
+      setShowResults(true);
+    }, 2000);
   };
 
   const handleReset = () => {
     setFile(null);
     setShowResults(false);
     setIsAnalyzing(false);
-    setAnalysisResults(null);
-    setError(null);
-    setAnalysisProgress('');
-  };
-
-  const handleDownloadReport = () => {
-    if (!analysisResults) return;
-    
-    // Create a formatted text report
-    let report = `SYSMON THREAT ANALYSIS REPORT\n`;
-    report += `${'='.repeat(80)}\n\n`;
-    report += `File: ${analysisResults.fileName}\n`;
-    report += `Analysis Date: ${new Date(analysisResults.analyzedAt).toLocaleString()}\n`;
-    report += `Processing Time: ${analysisResults.processingTime}\n\n`;
-    
-    report += `SUMMARY\n`;
-    report += `${'-'.repeat(80)}\n`;
-    report += `Total Events: ${analysisResults.totalEvents.toLocaleString()}\n`;
-    report += `Threats Detected: ${analysisResults.detections.length}\n`;
-    report += `Total Alerts: ${analysisResults.detections.reduce((sum, d) => sum + d.count, 0)}\n`;
-    report += `Unique Processes: ${analysisResults.uniqueProcesses}\n`;
-    report += `Network Connections: ${analysisResults.networkConnections}\n`;
-    report += `File Modifications: ${analysisResults.fileModifications}\n`;
-    report += `Registry Changes: ${analysisResults.registryChanges}\n\n`;
-    
-    report += `SEVERITY BREAKDOWN\n`;
-    report += `${'-'.repeat(80)}\n`;
-    report += `High: ${analysisResults.severityBreakdown.high}\n`;
-    report += `Medium: ${analysisResults.severityBreakdown.medium}\n`;
-    report += `Low: ${analysisResults.severityBreakdown.low}\n\n`;
-    
-    report += `TOP MITRE ATT&CK TACTICS\n`;
-    report += `${'-'.repeat(80)}\n`;
-    analysisResults.topTactics.forEach((tactic, index) => {
-      report += `${index + 1}. ${tactic.name} (${tactic.count} detections)\n`;
-    });
-    report += `\n`;
-    
-    report += `THREAT DETECTIONS\n`;
-    report += `${'-'.repeat(80)}\n\n`;
-    analysisResults.detections.forEach((detection, index) => {
-      report += `[${index + 1}] ${detection.name}\n`;
-      report += `    MITRE ATT&CK: ${detection.technique}\n`;
-      if (detection.mitre) {
-        report += `    MITRE ID: ${detection.mitre.id} - ${detection.mitre.name}\n`;
-      }
-      report += `    Tactic: ${detection.tactic}\n`;
-      report += `    Severity: ${detection.severity.toUpperCase()}\n`;
-      report += `    Confidence: ${detection.confidence}%\n`;
-      report += `    Occurrences: ${detection.count}\n`;
-      report += `    Description: ${detection.description}\n`;
-      report += `    Indicators: ${detection.indicators.join(', ')}\n`;
-      report += `\n`;
-    });
-    
-    report += `${'-'.repeat(80)}\n`;
-    report += `End of Report\n`;
-    
-    // Create and download the file
-    const blob = new Blob([report], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `sysmon-analysis-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const handleExportJSON = () => {
-    if (!analysisResults) return;
-    
-    // Create JSON export
-    const jsonData = JSON.stringify(analysisResults, null, 2);
-    
-    // Create and download the file
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `sysmon-analysis-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   const getSeverityStyles = (severity: string) => {
@@ -242,24 +174,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Show Loading State while analyzing */}
-            {isAnalyzing ? (
-              <div className="vercel-card rounded-2xl p-16 text-center">
-                <div className="flex flex-col items-center gap-6">
-                  <div className="relative">
-                    <Loader2 className="w-16 h-16 animate-spin text-blue-400" />
-                    <div className="absolute inset-0 blur-xl bg-blue-400/30 animate-pulse"></div>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">Analyzing Your Data</h3>
-                    <p className="text-gray-400">{analysisProgress || 'Processing...'}</p>
-                  </div>
-                  <div className="w-full max-w-md h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
-            ) : !showResults ? (
+            {!showResults ? (
               <>
                 {/* Upload Section */}
                 <div
@@ -275,12 +190,11 @@ export default function Home() {
                   {!file ? (
                     <>
                       <UploadIcon className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-6 text-gray-500" />
-                      <h3 className="text-xl sm:text-2xl font-semibold mb-2">Drop your Sysmon file here</h3>
-                      <p className="text-sm sm:text-base text-gray-400 mb-2">CSV, TXT, or LOG format</p>
-                      <p className="text-xs text-gray-500 mb-8">Max 50MB</p>
+                      <h3 className="text-xl sm:text-2xl font-semibold mb-2">Drop your Sysmon CSV here</h3>
+                      <p className="text-sm sm:text-base text-gray-400 mb-8">or click to browse • Max 50MB</p>
                       <input
                         type="file"
-                        accept=".csv,.txt,.log"
+                        accept=".csv"
                         onChange={handleFileSelect}
                         className="hidden"
                         id="file-upload"
@@ -290,16 +204,6 @@ export default function Home() {
                           <span>Select File</span>
                         </Button>
                       </label>
-                      <p className="mt-6 text-sm text-gray-500">or</p>
-                      <Button
-                        onClick={downloadSampleCSV}
-                        variant="outline"
-                        size="sm"
-                        className="mt-3 border-white/40 hover:border-white/60 hover:bg-white/20 bg-white/5 text-sm text-white font-medium shadow-lg transition-all"
-                      >
-                        <Sparkles className="mr-2 h-4 w-4" />
-                        Download Sample Data
-                      </Button>
                     </>
                   ) : (
                     <>
@@ -314,18 +218,13 @@ export default function Home() {
                       <p className="text-sm sm:text-base text-gray-400 mb-10">
                         {(file.size / 1024).toFixed(2)} KB
                       </p>
-                      {error && (
-                        <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
-                          <p className="text-sm text-red-400">{error}</p>
-                        </div>
-                      )}
                       <Button
                         onClick={handleAnalyze}
                         disabled={isAnalyzing}
                         size="lg"
-                        className="bg-white text-black hover:bg-gray-200 rounded-full px-10 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="bg-white text-black hover:bg-gray-200 rounded-full px-10 text-sm font-medium"
                       >
-                        Start Analysis
+                        {isAnalyzing ? 'Analyzing...' : 'Start Analysis'}
                       </Button>
                     </>
                   )}
@@ -356,7 +255,7 @@ export default function Home() {
                   </div>
                 </div>
               </>
-            ) : analysisResults ? (
+            ) : (
               <>
                 {/* Results Header */}
                 <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -369,10 +268,8 @@ export default function Home() {
                   <Button
                     onClick={handleReset}
                     variant="outline"
-                    size="lg"
-                    className="border-white/40 hover:border-white/60 hover:bg-white/20 bg-white/5 rounded-full text-sm font-medium self-start sm:self-auto text-white shadow-lg transition-all"
+                    className="border-white/10 hover:bg-white/5 text-sm self-start sm:self-auto"
                   >
-                    <UploadIcon className="mr-2 h-4 w-4" />
                     New Analysis
                   </Button>
                 </div>
@@ -500,7 +397,7 @@ export default function Home() {
                                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase ${styles.badge}`}>
                                   {detection.severity}
                                 </span>
-                                <span className="text-xs text-gray-500">â€¢ {detection.tactic}</span>
+                                <span className="text-xs text-gray-500">• {detection.tactic}</span>
                               </div>
                               <p className="text-sm text-gray-300 mb-4">{detection.description}</p>
                               <div className="flex flex-wrap gap-2 mb-3">
@@ -523,29 +420,24 @@ export default function Home() {
 
                 {/* Export Actions */}
                 <div className="flex flex-wrap gap-3 sm:gap-4">
-                  <Button 
-                    onClick={handleDownloadReport}
-                    size="lg" 
-                    className="bg-white text-black hover:bg-gray-100 hover:scale-105 rounded-full text-sm font-medium shadow-lg transition-all"
-                  >
+                  <Button size="lg" className="bg-white text-black hover:bg-gray-200 rounded-full text-sm font-medium">
                     <Download className="mr-2 h-4 w-4" />
                     Download Report
                   </Button>
-                  <Button 
-                    onClick={handleExportJSON}
-                    size="lg" 
-                    variant="outline" 
-                    className="border-white/40 hover:border-white/60 hover:bg-white/20 bg-white/5 rounded-full text-sm font-medium text-white shadow-lg transition-all"
-                  >
+                  <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 rounded-full text-sm font-medium">
                     <FileJson className="mr-2 h-4 w-4" />
                     Export JSON
                   </Button>
                 </div>
               </>
-            ) : null}
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 }
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+
+  // Mock analysis results

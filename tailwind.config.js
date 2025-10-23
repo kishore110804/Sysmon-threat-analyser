@@ -21,10 +21,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['IBM Plex Mono', 'monospace'],
-				heading: ['Array', 'sans-serif'],
-				playfair: ['Playfair Display', 'serif'],
-				playwrite: ['"Playwrite GB J Guides"', 'Playfair Display', 'cursive']
+				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
+				mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', 'monospace'],
 			},
 			colors: {
 				border: "hsl(var(--border))",
