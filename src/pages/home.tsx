@@ -1,5 +1,5 @@
 ﻿import { useState, useCallback } from 'react';
-import { Upload as UploadIcon, FileText, X, AlertTriangle, Info, CheckCircle, Download, FileJson, Activity, Shield, TrendingUp, BarChart3, Loader2, Sparkles } from 'lucide-react';
+import { Upload as UploadIcon, FileText, X, AlertTriangle, Info, CheckCircle, Download, FileJson, Activity, Shield, TrendingUp, BarChart3, Loader2, Sparkles, Code2, FileCode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { analyzeSysmonFile, validateSysmonFile } from '@/lib/analyzer';
 import { AnalysisResult } from '@/types/sysmon';
@@ -13,6 +13,7 @@ export default function Home() {
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
   const [analysisProgress, setAnalysisProgress] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [showFormatGuide, setShowFormatGuide] = useState(false);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -332,7 +333,7 @@ export default function Home() {
                 </div>
 
                 {/* Feature Cards */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                   <div className="vercel-card p-6 rounded-xl">
                     <div className="flex items-center gap-3 mb-3">
                       <Activity className="w-5 h-5 text-blue-400" />
@@ -354,6 +355,111 @@ export default function Home() {
                     </div>
                     <p className="text-sm text-gray-400">Download reports as PDF or JSON</p>
                   </div>
+                </div>
+
+                {/* Format Guide Section */}
+                <div className="vercel-card rounded-xl p-6 sm:p-8">
+                  <button 
+                    onClick={() => setShowFormatGuide(!showFormatGuide)}
+                    className="w-full flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FileCode className="w-5 h-5 text-blue-400" />
+                      <h3 className="text-lg font-semibold">Supported File Formats</h3>
+                    </div>
+                    <div className={`transform transition-transform ${showFormatGuide ? 'rotate-180' : ''}`}>
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </button>
+
+                  {showFormatGuide && (
+                    <div className="mt-6 space-y-6">
+                      {/* CSV Format */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-md">
+                            <span className="text-xs font-mono text-green-400">CSV</span>
+                          </div>
+                          <h4 className="text-sm font-semibold">CSV Format (Recommended)</h4>
+                        </div>
+                        <p className="text-sm text-gray-400 mb-3">
+                          Export Sysmon logs using <code className="px-2 py-0.5 bg-white/5 rounded text-xs font-mono">wevtutil</code> or Event Viewer with headers:
+                        </p>
+                        <div className="bg-[#0A0A0A] border border-white/10 rounded-lg p-4 overflow-x-auto">
+                          <pre className="text-xs font-mono text-gray-300">
+<span className="text-blue-400">TimeCreated</span>,<span className="text-blue-400">EventID</span>,<span className="text-blue-400">Computer</span>,<span className="text-blue-400">Image</span>,<span className="text-blue-400">CommandLine</span>,<span className="text-blue-400">User</span>,...{'\n'}
+2024-11-08 10:23:45,1,DESKTOP-ABC,C:\Windows\System32\cmd.exe,cmd /c whoami,SYSTEM{'\n'}
+2024-11-08 10:24:12,3,DESKTOP-ABC,C:\Windows\explorer.exe,"explorer.exe",User1
+                          </pre>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          💡 Must include: TimeCreated, EventID, Computer, and at least one process field (Image/CommandLine)
+                        </p>
+                      </div>
+
+                      {/* PowerShell Text Format */}
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-md">
+                            <span className="text-xs font-mono text-purple-400">TXT/LOG</span>
+                          </div>
+                          <h4 className="text-sm font-semibold">PowerShell Get-WinEvent Format</h4>
+                        </div>
+                        <p className="text-sm text-gray-400 mb-3">
+                          Use PowerShell command to export logs:
+                        </p>
+                        <div className="bg-[#0A0A0A] border border-white/10 rounded-lg p-4 overflow-x-auto mb-3">
+                          <pre className="text-xs font-mono text-gray-300">
+<span className="text-green-400">Get-WinEvent</span> -LogName <span className="text-yellow-400">"Microsoft-Windows-Sysmon/Operational"</span> | {'\n'}
+  <span className="text-green-400">Select-Object</span> TimeCreated, Id, Message | {'\n'}
+  <span className="text-green-400">Out-File</span> sysmon.txt
+                          </pre>
+                        </div>
+                        <p className="text-sm text-gray-400 mb-3">Expected output format:</p>
+                        <div className="bg-[#0A0A0A] border border-white/10 rounded-lg p-4 overflow-x-auto">
+                          <pre className="text-xs font-mono text-gray-300">
+<span className="text-blue-400">TimeCreated</span> : 11/8/2024 10:23:45 AM{'\n'}
+<span className="text-blue-400">Id</span>          : 1{'\n'}
+<span className="text-blue-400">Message</span>     : Process Create:{'\n'}
+                RuleName: -{'\n'}
+                UtcTime: 2024-11-08 10:23:45.123{'\n'}
+                ProcessGuid: {'{'}abc123{'}'}{'\n'}
+                ProcessId: 1234{'\n'}
+                Image: C:\Windows\System32\cmd.exe{'\n'}
+                CommandLine: cmd /c whoami{'\n'}
+                User: NT AUTHORITY\SYSTEM
+                          </pre>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          💡 Parser automatically extracts fields from Message content
+                        </p>
+                      </div>
+
+                      {/* Quick Export Commands */}
+                      <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                        <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                          <Code2 className="w-4 h-4 text-blue-400" />
+                          Quick Export Commands
+                        </h4>
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">PowerShell (Text):</p>
+                            <code className="block text-xs font-mono bg-[#0A0A0A] p-2 rounded text-gray-300 overflow-x-auto">
+                              Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" -MaxEvents 1000 | Out-File sysmon.txt
+                            </code>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-400 mb-1">Event Viewer (CSV):</p>
+                            <code className="block text-xs font-mono bg-[#0A0A0A] p-2 rounded text-gray-300 overflow-x-auto">
+                              Event Viewer → Sysmon Logs → Save All Events As... → CSV Format
+                            </code>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             ) : analysisResults ? (
