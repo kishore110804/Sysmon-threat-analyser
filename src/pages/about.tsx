@@ -85,10 +85,48 @@ export default function About() {
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-gray-500">▸</span>
                   <div>
-                    <strong className="text-base">T1059.001 - PowerShell:</strong>{" "}
+                    <strong className="text-base">T1059.001 - PowerShell Execution:</strong>{" "}
                     <span className="text-sm text-gray-400">
                       Detection of malicious PowerShell usage including encoded commands, download cradles,
-                      and execution policy bypasses
+                      execution policy bypasses, and memory-only fileless execution
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1003.001 - LSASS Memory Access / Mimikatz:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Detects credential dumping via LSASS memory access and Invoke-Mimikatz execution
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1087.002 - BloodHound/SharpHound:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Detection of Active Directory enumeration tools (BloodHound/SharpHound) including
+                      disk-based and memory-only execution via download cradles
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1059.001 - Cradlecraft PsSendKeys:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Identifies GUI automation attacks using PsSendKeys (opens Notepad, automates keystrokes
+                      for payload execution)
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1548.002 - UAC Bypass via App Paths:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Detects UAC bypass techniques using Windows App Paths registry manipulation (Invoke-AppPathBypass)
                     </span>
                   </div>
                 </li>
@@ -104,7 +142,7 @@ export default function About() {
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-gray-500">▸</span>
                   <div>
-                    <strong className="text-base">T1071 - Application Layer Protocol:</strong>{" "}
+                    <strong className="text-base">T1071.001 - Web Protocols (C2):</strong>{" "}
                     <span className="text-sm text-gray-400">
                       Detection of suspicious network connections and web-based command and control
                     </span>
@@ -113,13 +151,73 @@ export default function About() {
                 <li className="flex items-start gap-3">
                   <span className="mt-1 text-gray-500">▸</span>
                   <div>
-                    <strong className="text-base">Custom Rules:</strong>{" "}
+                    <strong className="text-base">T1055 - Process Injection:</strong>{" "}
                     <span className="text-sm text-gray-400">
-                      Extensible rule engine supporting additional detection patterns
+                      Detects process injection techniques (VirtualAlloc, WriteProcessMemory, CreateRemoteThread)
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1547.001 - Registry Run Keys / Persistence:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Monitors autorun registry keys and startup folder modifications for persistence
+                    </span>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-1 text-gray-500">▸</span>
+                  <div>
+                    <strong className="text-base">T1490 - Inhibit System Recovery:</strong>{" "}
+                    <span className="text-sm text-gray-400">
+                      Detects attempts to delete backups, shadow copies, or disable recovery (ransomware behavior)
                     </span>
                   </div>
                 </li>
               </ul>
+            </div>
+          </section>
+
+          {/* Atomic Red Team Coverage */}
+          <section className="mb-16">
+            <h2 className="mb-6 text-2xl font-semibold">Atomic Red Team Test Coverage</h2>
+            <div className="vercel-card rounded-xl p-6 sm:p-8">
+              <p className="mb-6 text-sm text-gray-400">
+                This analyzer covers all atomic tests for PowerShell-based attack simulations:
+              </p>
+              <div className="space-y-4">
+                <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                  <h3 className="mb-2 text-base font-semibold text-green-400">✓ Atomic Test #1 - Mimikatz</h3>
+                  <p className="text-sm text-gray-400">
+                    Downloads Invoke-Mimikatz and dumps credentials via PowerShell download cradle
+                  </p>
+                </div>
+                <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                  <h3 className="mb-2 text-base font-semibold text-green-400">✓ Atomic Test #2 - Run BloodHound from Local Disk</h3>
+                  <p className="text-sm text-gray-400">
+                    Fetches SharpHound.ps1, imports it, runs AD collection, and writes *BloodHound.zip to %TEMP%
+                  </p>
+                </div>
+                <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                  <h3 className="mb-2 text-base font-semibold text-green-400">✓ Atomic Test #3 - Run BloodHound from Memory</h3>
+                  <p className="text-sm text-gray-400">
+                    Loads SharpHound directly into memory via IEX (New-Object Net.WebClient).DownloadString(...)
+                  </p>
+                </div>
+                <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                  <h3 className="mb-2 text-base font-semibold text-green-400">✓ Atomic Test #4 - Mimikatz Cradlecraft PsSendKeys</h3>
+                  <p className="text-sm text-gray-400">
+                    Automates GUI (opens Notepad, etc.) and executes Mimikatz using PsSendKeys automation
+                  </p>
+                </div>
+                <div className="rounded-lg border border-green-500/20 bg-green-500/5 p-4">
+                  <h3 className="mb-2 text-base font-semibold text-green-400">✓ Atomic Test #5 - Invoke-AppPathBypass</h3>
+                  <p className="text-sm text-gray-400">
+                    Runs a UAC bypass (Windows 10) via App Paths registry manipulation to start a payload
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 

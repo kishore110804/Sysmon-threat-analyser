@@ -270,6 +270,152 @@ export const DETECTION_RULES: DetectionRule[] = [
     indicators: ['shadow_copy_deletion', 'backup_deletion', 'recovery_disabled'],
     confidence: 95,
   },
+
+  // T1003.001 - Mimikatz (Enhanced Detection)
+  {
+    id: 'T1003.001-Mimikatz',
+    name: 'Mimikatz Credential Dumping',
+    technique: 'T1003.001',
+    tactic: 'Credential Access',
+    severity: 'high',
+    description: 'Invoke-Mimikatz execution detected via PowerShell download cradle',
+    patterns: [
+      {
+        field: 'CommandLine',
+        pattern: /Invoke-Mimikatz|mimikatz\.ps1/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /IEX.*mimikatz|DownloadString.*mimikatz/i,
+      },
+      {
+        field: 'ScriptBlockText',
+        pattern: /Invoke-Mimikatz|DumpCreds|sekurlsa::logonpasswords/i,
+      },
+    ],
+    indicators: ['invoke_mimikatz', 'credential_dumping', 'download_cradle', 'sekurlsa'],
+    confidence: 98,
+  },
+
+  // T1087.002 - BloodHound/SharpHound Detection
+  {
+    id: 'T1087.002',
+    name: 'BloodHound/SharpHound Execution',
+    technique: 'T1087.002',
+    tactic: 'Discovery',
+    severity: 'high',
+    description: 'BloodHound/SharpHound AD enumeration tool detected',
+    patterns: [
+      {
+        field: 'CommandLine',
+        pattern: /SharpHound|Invoke-BloodHound|BloodHound\.ps1/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /IEX.*SharpHound|DownloadString.*SharpHound/i,
+      },
+      {
+        field: 'TargetFilename',
+        pattern: /.*BloodHound\.zip$/i,
+      },
+      {
+        field: 'ScriptBlockText',
+        pattern: /Invoke-BloodHound|SharpHound\.ps1|Get-NetDomain|Get-NetUser/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /-CollectionMethod\s+(All|Default|DCOnly)/i,
+      },
+    ],
+    indicators: ['sharphound', 'bloodhound', 'ad_enumeration', 'collection_method', 'zip_output'],
+    confidence: 95,
+  },
+
+  // T1059.001 - Cradlecraft PsSendKeys
+  {
+    id: 'T1059.001-Cradlecraft',
+    name: 'Cradlecraft PsSendKeys Execution',
+    technique: 'T1059.001',
+    tactic: 'Execution',
+    severity: 'high',
+    description: 'GUI automation via PsSendKeys (Cradlecraft) detected - automates Notepad/GUI for payload execution',
+    patterns: [
+      {
+        field: 'CommandLine',
+        pattern: /\$wshell\.SendKeys|Add-Type.*System\.Windows\.Forms.*SendKeys/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /Start-Process\s+notepad.*SendKeys/i,
+      },
+      {
+        field: 'ScriptBlockText',
+        pattern: /SendKeys|System\.Windows\.Forms.*AppActivate/i,
+      },
+      {
+        field: 'Image',
+        pattern: /\\notepad\.exe$/i,
+      },
+    ],
+    indicators: ['sendkeys', 'gui_automation', 'notepad_automation', 'cradlecraft'],
+    confidence: 90,
+  },
+
+  // T1548.002 - UAC Bypass via App Paths
+  {
+    id: 'T1548.002',
+    name: 'UAC Bypass - App Paths',
+    technique: 'T1548.002',
+    tactic: 'Privilege Escalation',
+    severity: 'high',
+    description: 'UAC bypass detected via App Paths registry manipulation (Windows 10)',
+    patterns: [
+      {
+        field: 'TargetObject',
+        pattern: /\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /Invoke-AppPathBypass|App Paths.*cmd\.exe/i,
+      },
+      {
+        field: 'TargetObject',
+        pattern: /HKLM.*App Paths.*\\(cmd|powershell|control)\.exe/i,
+      },
+      {
+        field: 'Details',
+        pattern: /HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths/i,
+      },
+    ],
+    indicators: ['uac_bypass', 'app_paths', 'registry_modification', 'privilege_escalation'],
+    confidence: 92,
+  },
+
+  // T1059.001 - PowerShell Memory Execution (BloodHound Cradle)
+  {
+    id: 'T1059.001-MemoryExec',
+    name: 'PowerShell Memory-Only Execution',
+    technique: 'T1059.001',
+    tactic: 'Defense Evasion',
+    severity: 'high',
+    description: 'PowerShell executing code directly in memory via download cradle (fileless execution)',
+    patterns: [
+      {
+        field: 'CommandLine',
+        pattern: /IEX\s*\(New-Object\s+Net\.WebClient\)\.DownloadString/i,
+      },
+      {
+        field: 'CommandLine',
+        pattern: /IEX.*\(iwr\s+-usebasicparsing\)/i,
+      },
+      {
+        field: 'ScriptBlockText',
+        pattern: /Invoke-Expression.*DownloadString|IEX.*WebClient/i,
+      },
+    ],
+    indicators: ['memory_execution', 'download_cradle', 'fileless', 'iex_webclient'],
+    confidence: 93,
+  },
 ];
 
 /**
