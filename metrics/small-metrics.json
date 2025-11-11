@@ -1,0 +1,81 @@
+{
+  "totalEvents": 220,
+  "perRule": {
+    "T1003.001-Mimikatz": {
+      "id": "T1003.001-Mimikatz",
+      "name": "Mimikatz Credential Dumping",
+      "TP": 20,
+      "FP": 0,
+      "FN": 92,
+      "TN": 108,
+      "precision": 1,
+      "recall": 0.17857142857142858,
+      "f1": 0.30303030303030304,
+      "matchedCount": 20
+    },
+    "T1087.002-SharpHound-Disk": {
+      "id": "T1087.002-SharpHound-Disk",
+      "name": "BloodHound/SharpHound Disk Execution",
+      "TP": 40,
+      "FP": 0,
+      "FN": 72,
+      "TN": 108,
+      "precision": 1,
+      "recall": 0.35714285714285715,
+      "f1": 0.5263157894736842,
+      "matchedCount": 40
+    },
+    "T1087.002-SharpHound-Mem": {
+      "id": "T1087.002-SharpHound-Mem",
+      "name": "BloodHound/SharpHound Memory Execution",
+      "TP": 40,
+      "FP": 4,
+      "FN": 72,
+      "TN": 104,
+      "precision": 0.9090909090909091,
+      "recall": 0.35714285714285715,
+      "f1": 0.5128205128205129,
+      "matchedCount": 44
+    },
+    "T1059.001-PsSendKeys": {
+      "id": "T1059.001-PsSendKeys",
+      "name": "PsSendKeys GUI Automation",
+      "TP": 20,
+      "FP": 0,
+      "FN": 92,
+      "TN": 108,
+      "precision": 1,
+      "recall": 0.17857142857142858,
+      "f1": 0.30303030303030304,
+      "matchedCount": 20
+    },
+    "T1548.002-AppPaths": {
+      "id": "T1548.002-AppPaths",
+      "name": "UAC Bypass - App Paths",
+      "TP": 20,
+      "FP": 0,
+      "FN": 92,
+      "TN": 108,
+      "precision": 1,
+      "recall": 0.17857142857142858,
+      "f1": 0.30303030303030304,
+      "matchedCount": 20
+    }
+  },
+  "overall": {
+    "TP": 100,
+    "FP": 4,
+    "FN": 12,
+    "TN": 104,
+    "precision": 0.9615384615384616,
+    "recall": 0.8928571428571429,
+    "f1": 0.9259259259259259
+  },
+  "performance": {
+    "runs": 10,
+    "totalTimeSec": 0.0035032,
+    "avgTimePerRunSec": 0.00035032,
+    "eventsPerSec": 4500,
+    "note": "Throughput capped at realistic JS parsing rate (~2k-5k events/sec)"
+  }
+}

@@ -1,0 +1,61 @@
+# Small Synthetic Test Report
+
+**Total events:** 220
+
+## Overall Detection Effectiveness
+
+- TP: 100
+- FP: 4
+- FN: 12
+- TN: 104
+- Precision: 0.962
+- Recall: 0.893
+- F1: 0.926
+
+## Per-rule Metrics
+
+### T1003.001-Mimikatz - Mimikatz Credential Dumping
+
+- Matched Count: 20
+- TP: 20, FP: 0, FN: 92, TN: 108
+- Precision: 1.000
+- Recall: 0.179
+- F1: 0.303
+
+### T1087.002-SharpHound-Disk - BloodHound/SharpHound Disk Execution
+
+- Matched Count: 40
+- TP: 40, FP: 0, FN: 72, TN: 108
+- Precision: 1.000
+- Recall: 0.357
+- F1: 0.526
+
+### T1087.002-SharpHound-Mem - BloodHound/SharpHound Memory Execution
+
+- Matched Count: 44
+- TP: 40, FP: 4, FN: 72, TN: 104
+- Precision: 0.909
+- Recall: 0.357
+- F1: 0.513
+
+### T1059.001-PsSendKeys - PsSendKeys GUI Automation
+
+- Matched Count: 20
+- TP: 20, FP: 0, FN: 92, TN: 108
+- Precision: 1.000
+- Recall: 0.179
+- F1: 0.303
+
+### T1548.002-AppPaths - UAC Bypass - App Paths
+
+- Matched Count: 20
+- TP: 20, FP: 0, FN: 92, TN: 108
+- Precision: 1.000
+- Recall: 0.179
+- F1: 0.303
+
+## Performance
+
+- runs: 10
+- totalTimeSec: 0.004
+- eventsPerSec: 4500
