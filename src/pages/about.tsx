@@ -292,17 +292,232 @@ export default function About() {
             </div>
           </section>
 
+          {/* Attack Techniques Explained */}
+          <section className="mb-16">
+            <h2 className="mb-6 text-2xl font-semibold"> Attack Techniques Explained </h2>
+            <p className="mb-8 text-sm text-gray-400">
+              Here's what each attack does, why attackers use them, and what damage they can cause.
+            </p>
+            
+            <div className="space-y-6">
+              {/* Mimikatz */}
+              <div className="vercel-card rounded-xl border-l-4 border-red-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-red-500/10 px-3 py-1 text-xs font-bold text-red-400">
+                    CRITICAL
+                  </span>
+                  <h3 className="text-lg font-bold text-red-400">T1003.001 - Mimikatz (Credential Dumping)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">A hacking tool that steals passwords from Windows memory</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Extract login credentials (usernames & passwords) from running processes</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Reads Windows LSASS process memory where passwords are temporarily stored</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-red-300"> Can steal admin passwords → Full network takeover, data theft, ransomware deployment</span></p>
+                  <p><strong className="text-white">Real-world use:</strong> <span className="text-gray-300">Used in 80%+ of ransomware attacks to spread laterally across networks</span></p>
+                </div>
+              </div>
+
+              {/* PowerShell */}
+              <div className="vercel-card rounded-xl border-l-4 border-orange-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-orange-500/10 px-3 py-1 text-xs font-bold text-orange-400">
+                    HIGH
+                  </span>
+                  <h3 className="text-lg font-bold text-orange-400">T1059.001 - Malicious PowerShell</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Abusing Windows' built-in scripting tool (PowerShell) to run malicious code</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Execute commands without installing malware (living off the land)</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Downloads malicious scripts from internet, runs them in memory (no file on disk)</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-orange-300"> Install backdoors, steal data, disable security tools, download more malware</span></p>
+                  <p><strong className="text-white">Why it's dangerous:</strong> <span className="text-gray-300">Hard to detect (no file written), looks like normal admin activity</span></p>
+                </div>
+              </div>
+
+              {/* BloodHound */}
+              <div className="vercel-card rounded-xl border-l-4 border-purple-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-purple-500/10 px-3 py-1 text-xs font-bold text-purple-400">
+                    HIGH
+                  </span>
+                  <h3 className="text-lg font-bold text-purple-400">T1087.002 - BloodHound/SharpHound (AD Reconnaissance)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Mapping tool that draws a "treasure map" of your company's network</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Find the fastest path to Domain Admin (god-mode access)</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Scans Active Directory to find users, computers, permissions, trust relationships</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-purple-300">Reveals weak spots in your network → Attackers know exactly who to target next</span></p>
+                  <p><strong className="text-white">Output:</strong> <span className="text-gray-300">Creates a visual graph showing "if I hack user X, I can access server Y"</span></p>
+                </div>
+              </div>
+
+              {/* PsSendKeys */}
+              <div className="vercel-card rounded-xl border-l-4 border-yellow-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-yellow-500/10 px-3 py-1 text-xs font-bold text-yellow-400">
+                    MEDIUM
+                  </span>
+                  <h3 className="text-lg font-bold text-yellow-400">T1059.001 - PsSendKeys (GUI Automation)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Automated keyboard/mouse control to run malicious commands</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Bypass security restrictions by simulating human interaction</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Opens Notepad → Types malicious PowerShell → Hits Enter → Executes payload</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-yellow-300"> Execute code that might be blocked by security policies, evade detection</span></p>
+                  <p><strong className="text-white">Sneaky trick:</strong> <span className="text-gray-300">Looks like a user typing on keyboard (harder to detect than direct commands)</span></p>
+                </div>
+              </div>
+
+              {/* UAC Bypass */}
+              <div className="vercel-card rounded-xl border-l-4 border-blue-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-400">
+                    HIGH
+                  </span>
+                  <h3 className="text-lg font-bold text-blue-400">T1548.002 - UAC Bypass (Privilege Escalation)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Trick to disable Windows' "Do you want to allow this app?" popup</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Get admin privileges without you noticing</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Exploits Windows registry (App Paths) to run programs with elevated rights silently</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-blue-300"> Gain admin access → Install rootkits, disable antivirus, control the entire system</span></p>
+                  <p><strong className="text-white">Why it matters:</strong> <span className="text-gray-300">Turns a normal user account into an admin without your permission</span></p>
+                </div>
+              </div>
+
+              {/* Obfuscation */}
+              <div className="vercel-card rounded-xl border-l-4 border-green-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-green-500/10 px-3 py-1 text-xs font-bold text-green-400">
+                    MEDIUM
+                  </span>
+                  <h3 className="text-lg font-bold text-green-400">T1027 - Code Obfuscation (Hiding Malicious Code)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Disguising malicious commands so they look like gibberish</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Evade antivirus and detection systems</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Base64 encoding, string reversal, variable substitution, random spaces/characters</span></p>
+                  <p><strong className="text-white">Example:</strong> <span className="font-mono text-gray-300">mimikatz → bWltaWthdHo= (base64) → Looks harmless to antivirus</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-green-300"> Makes malware invisible to basic detection tools, prolongs attacker dwell time</span></p>
+                </div>
+              </div>
+
+              {/* Process Injection */}
+              <div className="vercel-card rounded-xl border-l-4 border-pink-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-pink-500/10 px-3 py-1 text-xs font-bold text-pink-400">
+                    HIGH
+                  </span>
+                  <h3 className="text-lg font-bold text-pink-400">T1055 - Process Injection (Hiding in Legitimate Programs)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Injecting malicious code into normal Windows programs (explorer.exe, svchost.exe)</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Hide malware inside trusted processes so it looks legitimate</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Uses Windows APIs (VirtualAlloc, WriteProcessMemory) to inject code into running processes</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-pink-300"> Stealth execution, bypasses application whitelisting, evades endpoint detection</span></p>
+                  <p><strong className="text-white">Real example:</strong> <span className="text-gray-300">Malware runs inside chrome.exe so firewall thinks it's just your browser</span></p>
+                </div>
+              </div>
+
+              {/* Persistence */}
+              <div className="vercel-card rounded-xl border-l-4 border-indigo-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-bold text-indigo-400">
+                    MEDIUM
+                  </span>
+                  <h3 className="text-lg font-bold text-indigo-400">T1547.001 - Registry Persistence (Staying on Your System)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Creating "autorun" entries so malware survives restarts</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Maintain access even after computer reboots or updates</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Modifies Windows registry keys (Run, RunOnce) or startup folders to auto-launch malware</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-indigo-300">♾️ Persistent backdoor access, can reinstall malware even if you delete it</span></p>
+                  <p><strong className="text-white">Common locations:</strong> <span className="text-gray-300">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</span></p>
+                </div>
+              </div>
+
+              {/* Ransomware Behavior */}
+              <div className="vercel-card rounded-xl border-l-4 border-red-600 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-red-600/10 px-3 py-1 text-xs font-bold text-red-500">
+                    CRITICAL
+                  </span>
+                  <h3 className="text-lg font-bold text-red-500">T1490 - Inhibit System Recovery (Ransomware Prep)</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Deleting backups and recovery options before encrypting your files</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Force you to pay ransom by making data recovery impossible</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Deletes Shadow Copies (vssadmin delete), disables Windows recovery, removes backups</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-red-400"> No way to restore files → Pay ransom or lose everything (avg ransom: $200K+)</span></p>
+                  <p><strong className="text-white">Commands used:</strong> <span className="font-mono text-gray-300">vssadmin.exe Delete Shadows /All /Quiet</span></p>
+                </div>
+              </div>
+
+              {/* C2 Communication */}
+              <div className="vercel-card rounded-xl border-l-4 border-cyan-500 p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-bold text-cyan-400">
+                    HIGH
+                  </span>
+                  <h3 className="text-lg font-bold text-cyan-400">T1071.001 - Command & Control (C2) Communication</h3>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <p><strong className="text-white">What it is:</strong> <span className="text-gray-300">Malware "calling home" to attacker's server for instructions</span></p>
+                  <p><strong className="text-white">Attacker's Goal:</strong> <span className="text-gray-300">Remote control of infected machine, receive new commands, exfiltrate data</span></p>
+                  <p><strong className="text-white">How it works:</strong> <span className="text-gray-300">Uses HTTP/HTTPS to blend in with normal web traffic, connects to attacker's server</span></p>
+                  <p><strong className="text-white">Damage:</strong> <span className="text-cyan-300">📡 Ongoing control, steal data gradually, deploy additional tools, coordinate multi-machine attacks</span></p>
+                  <p><strong className="text-white">Why it's scary:</strong> <span className="text-gray-300">Attacker can remotely control your computer from anywhere in the world</span></p>
+                </div>
+              </div>
+            </div>
+
+            {/* Attack Chain Summary */}
+            <div className="vercel-card mt-8 rounded-xl border-2 border-gray-700 p-6">
+              <h3 className="mb-4 text-lg font-bold text-white">🔗 Typical Attack Chain (How These Connect)</h3>
+              <div className="space-y-3 text-sm text-gray-300">
+                <p className="flex items-start gap-2">
+                  <span className="text-red-400">1.</span>
+                  <span><strong className="text-white">Initial Access:</strong> Phishing email with malicious PowerShell (T1059.001)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-orange-400">2.</span>
+                  <span><strong className="text-white">Privilege Escalation:</strong> UAC Bypass to get admin rights (T1548.002)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-purple-400">3.</span>
+                  <span><strong className="text-white">Discovery:</strong> Run BloodHound to map network (T1087.002)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-red-400">4.</span>
+                  <span><strong className="text-white">Credential Theft:</strong> Use Mimikatz to dump passwords (T1003.001)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-indigo-400">5.</span>
+                  <span><strong className="text-white">Persistence:</strong> Create registry autorun keys (T1547.001)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-cyan-400">6.</span>
+                  <span><strong className="text-white">Command & Control:</strong> Establish C2 connection (T1071.001)</span>
+                </p>
+                <p className="flex items-start gap-2">
+                  <span className="text-red-600">7.</span>
+                  <span><strong className="text-white">Impact:</strong> Delete backups → Deploy ransomware (T1490)</span>
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* Footer Note */}
           <section className="vercel-card rounded-xl p-6 text-center">
             <p className="text-sm text-gray-400">
-              Built with ❤️ by{" "}
+              by {" "}
               <a
                 href="https://github.com/kishore110804"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:underline"
               >
-                kishore110804
+                Kishore - Aakaash -Shambhavi
               </a>
             </p>
           </section>
